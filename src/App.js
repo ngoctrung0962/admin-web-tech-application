@@ -9,6 +9,9 @@ import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
+import BrandList from "./pages/brandList/BrandList";
+import Brand from "./pages/brand/Brand";
+import NewBrand from "./pages/newBrand/NewBrand";
 
 function App() {
   return (
@@ -37,6 +40,15 @@ function App() {
           </Route>
           <Route path="/newproduct">
             <NewProduct />
+          </Route>
+          <Route path="/brands">
+            <BrandList />
+          </Route>
+          <Route path="/brand/:brandId">
+            <Brand />
+          </Route>
+          <Route path="/newbrand">
+            <NewBrand />
           </Route>
         </Switch>
       </div>
