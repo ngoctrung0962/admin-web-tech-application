@@ -1,9 +1,11 @@
 import axios from 'axios'
+import Storagekey from '../constants/storagekey';
 
 const axiosClient = axios.create({
     baseURL: 'http://localhost:8080/api/technological_appliances',
     headers: {
-        "Content-type": 'application/json'
+        "Content-type": 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem(Storagekey.ACCESS_TOKEN) || ""}`
     },
 });
 

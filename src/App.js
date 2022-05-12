@@ -12,12 +12,21 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import BrandList from "./pages/brandList/BrandList";
 import Brand from "./pages/brand/Brand";
 import NewBrand from "./pages/newBrand/NewBrand";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import SignIn from './pages/signin/SignIn.page';
 
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
-      <Topbar />
-      <div className="container">
+      {/* <Route
+        path="/signin"
+        component={user ? <Redirect to="/" /> : SignIn}
+      /> */}
+      {<Topbar />}
+
+      {<div className="container">
         <Sidebar />
         <Switch>
           <Route exact path="/">
@@ -51,7 +60,42 @@ function App() {
             <NewBrand />
           </Route>
         </Switch>
-      </div>
+      </div>}
+      {/* <div className="container">
+        <Sidebar />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/users">
+            <UserList />
+          </Route>
+          <Route path="/user/:userId">
+            <User />
+          </Route>
+          <Route path="/newUser">
+            <NewUser />
+          </Route>
+          <Route path="/products">
+            <ProductList />
+          </Route>
+          <Route path="/product/:productId">
+            <Product />
+          </Route>
+          <Route path="/newproduct">
+            <NewProduct />
+          </Route>
+          <Route path="/brands">
+            <BrandList />
+          </Route>
+          <Route path="/brand/:brandId">
+            <Brand />
+          </Route>
+          <Route path="/newbrand">
+            <NewBrand />
+          </Route>
+        </Switch>
+      </div> */}
     </Router>
   );
 }
