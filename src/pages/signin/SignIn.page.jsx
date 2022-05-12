@@ -14,8 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
 import userApi from '../../api/userApi';
-import { login } from '../../redux/userRedux';
-import { useDispatch } from 'react-redux';
+import { login, loginFailure } from '../../redux/userRedux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Copyright(props) {
   return (
@@ -33,19 +33,20 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const error = useSelector(state => state.user.error)
   const history = useHistory()
   const dispatch = useDispatch()
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
-    console.log(data.get('email'))
-    const datares = await userApi.login(data)
-    login(dispatch, datares, data.get('email'));
-    history.push("/")
+    try {
+      const datares = await userApi.login(data)
+      login(dispatch, datares, data.get('username'));
+
+    } catch (error) {
+      console.log("fail")
+      dispatch(loginFailure())
+    }
   };
 
   return (
@@ -71,10 +72,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -87,10 +88,11 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
+            <p style={{ color: "red" }}>{error ? "Username or password were wrong! " : ""}</p>
             <Button
               type="submit"
               fullWidth

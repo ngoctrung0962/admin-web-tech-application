@@ -4,30 +4,28 @@ import Storagekey from "../constants/storagekey";
 
 export const login = async (dispatch, data, username) => {
     dispatch(loginStart());
-
-    // const userFake = {
-    //     username: "Trung",
-    //     password: "123"
-    // }
-
-    // if (data.username === userFake.username && data.password === userFake.password) {
-    //     dispatch(loginSuccess(userFake));
-    //     localStorage.setItem(Storagekey.USER, JSON.stringify(data))
-    // }
-    // else {
-    //     dispatch(loginFailure());
-    // }
-
+    console.log("data", data)
     if (data.AccessToken && data.RefreshToken) {
-        localStorage.setItem(Storagekey.ACCESS_TOKEN, data.AccessToken)
-        localStorage.setItem(Storagekey.REFRESH_TOKEN, data.RefreshToken)
+        await saveToken(data.AccessToken, data.RefreshToken)
         const userdata = await userApi.get(username)
-        dispatch(loginSuccess(userdata))
-        localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
-    } else {
-        dispatch(loginFailure());
+        if (userdata.role === "ROLE_ADMIN") {
+            dispatch(loginSuccess(userdata))
+            localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
+            window.alert("success")
+        }
+        else {
+            dispatch(loginFailure());
+            localStorage.clear()
+        }
     }
+
 };
+
+const saveToken = (accessToken, refreshToken) => {
+    localStorage.setItem(Storagekey.ACCESS_TOKEN, accessToken)
+    localStorage.setItem(Storagekey.REFRESH_TOKEN, refreshToken)
+    return true
+}
 
 export const register = async (dispatch, data) => {
     dispatch(RegisterStart());
@@ -50,7 +48,6 @@ const userSlice = createSlice({
         loginStart: (state) => {
             state.isFetching = true;
             state.error = false;
-
         },
         loginSuccess: (state, action) => {
             state.isFetching = false;
@@ -74,6 +71,7 @@ const userSlice = createSlice({
         Logout(state) {
             localStorage.clear();
             state.currentUser = null;
+            window.alert("Good bye!")
         }
     },
 });
