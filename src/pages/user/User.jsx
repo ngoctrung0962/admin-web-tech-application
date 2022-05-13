@@ -5,11 +5,35 @@ import {
   PermIdentity,
   PhoneAndroid,
   Publish,
+  EmojiPeopleTwoTone,
+  ViewAgenda,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import "./user.css";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import userApi from "../../api/userApi";
 
 export default function User() {
+  const location = useLocation();
+  const username = location.pathname.split("/")[2];
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await userApi.getUserByUsername(`${username}`);
+        setUser(res);
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [username]);
+
+  console.log(user);
+
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -27,7 +51,7 @@ export default function User() {
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
+              <span className="userShowUsername">{user.name}</span>
               <span className="userShowUserTitle">Software Engineer</span>
             </div>
           </div>
@@ -35,24 +59,34 @@ export default function User() {
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99</span>
+              <span className="userShowInfoTitle">{user.username}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
+              <span className="userShowInfoTitle">{user.dateOfBirth}</span>
+            </div>
+            <div className="userShowInfo">
+              <ViewAgenda className="userShowIcon" />
+              <span className="userShowInfoTitle">
+                {user.gender === true ? "Male" : "Felmale"}
+              </span>
+            </div>
+            <div className="userShowInfo">
+              <EmojiPeopleTwoTone className="userShowIcon" />
+              <span className="userShowInfoTitle">{user.role}</span>
             </div>
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">+1 123 456 67</span>
+              <span className="userShowInfoTitle">{user.phoneNumber}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+              <span className="userShowInfoTitle">{user.address}</span>
             </div>
           </div>
         </div>
@@ -99,6 +133,29 @@ export default function User() {
                   placeholder="New York | USA"
                   className="userUpdateInput"
                 />
+              </div>
+              <div className="userUpdateItem">
+                <label>Date Of Birth</label>
+                <input
+                  type="date"
+                  placeholder="2020-01-01"
+                  className="userUpdateInput"
+                />
+              </div>
+              <div className="userUpdateItem">
+                <label>Gender</label>
+                <select id="gender" name="gender" className="userUpdateInput">
+                  <option value={true}>Male</option>
+                  <option value={false}>Felmale</option>
+                  <option value="Khac">Orther</option>
+                </select>
+              </div>
+              <div className="userUpdateItem">
+                <label>Role</label>
+                <select id="role" name="role" className="userUpdateInput">
+                  <option value={true}>ROLE_ADMIN</option>
+                  <option value={false}>ROLE_USER</option>
+                </select>
               </div>
             </div>
             <div className="userUpdateRight">

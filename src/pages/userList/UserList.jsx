@@ -1,42 +1,103 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import userApi from "../../api/userApi";
 
 export default function UserList() {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await userApi.getAll();
+        setData(res);
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  //add fill id to the data
+  // const rows = data.map((item, index) => {
+  //   item.id = index;
+  //   return item;
+  // });
+  // console.log(rows);
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
-  
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
     {
-      field: "user",
-      headerName: "User",
-      width: 200,
+      field: "stt",
+      headerName: "STT",
+      width: 100,
+      renderCell: (params) => {
+        return <span>{params.id + 1}</span>;
+      },
+    },
+    {
+      field: "username",
+      headerName: "Username",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.username}</div>;
+      },
+    },
+    {
+      field: "name",
+      headerName: "FullName",
+      width: 170,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.name}</div>;
+      },
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 170,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.email}</div>;
+      },
+    },
+    {
+      field: "phoneNumber",
+      headerName: "Phone Number",
+      width: 170,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.phoneNumber}</div>;
+      },
+    },
+    {
+      field: "dateOfBirth",
+      headerName: "Date of Birth",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.dateOfBirth}</div>;
+      },
+    },
+    {
+      field: "address",
+      headerName: "Address",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="userListUser">{params.row.address}</div>;
+      },
+    },
+    {
+      field: "gender",
+      headerName: "Gender",
+      window: 150,
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
-            {params.row.username}
+            {params.row.gender === true ? "Male" : "Felmale"}
           </div>
         );
       },
-    },
-    { field: "email", headerName: "Email", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
-    {
-      field: "transaction",
-      headerName: "Transaction Volume",
-      width: 160,
     },
     {
       field: "action",
@@ -45,12 +106,12 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
+            <Link to={"/user/" + params.row.username}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row.username)}
             />
           </>
         );
@@ -60,11 +121,15 @@ export default function UserList() {
 
   return (
     <div className="userList">
+      <Link to="/newuser">
+        <button className="userAddButton">Create</button>
+      </Link>
       <DataGrid
         rows={data}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        getRowId={(row) => row.username}
+        pageSize={10}
         checkboxSelection
       />
     </div>
