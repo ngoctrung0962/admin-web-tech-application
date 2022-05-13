@@ -20,10 +20,46 @@ export default function BrandList() {
   };
   const columns = [
     { field: "brandId", headerName: "ID", width: 90 },
-    { field: "name", headerName: "Name", width: 200 },
-    { field: "email", headerName: "Email", width: 250 },
-    { field: "logo", headerName: "Logo", width: 200 },
-    { field: "location", headerName: "Location", width: 200 },
+    {
+      field: "name", headerName: "Name", width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.name ? params.row.name : "null"}
+          </div >
+        );
+      },
+    },
+    {
+      field: "email", headerName: "Email", width: 250,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.email ? params.row.email : "null"}
+          </div >
+        );
+      },
+    },
+    {
+      field: "logo", headerName: "Logo", width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.logo ? params.row.logo : "null"}
+          </div >
+        );
+      },
+    },
+    {
+      field: "location", headerName: "Location", width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.location ? params.row.location : "null"}
+          </div >
+        );
+      },
+    },
     {
       field: "action",
       headerName: "Action",

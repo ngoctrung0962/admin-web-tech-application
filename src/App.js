@@ -1,5 +1,3 @@
-import Sidebar from "./components/sidebar/Sidebar";
-import Topbar from "./components/topbar/Topbar";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -19,16 +17,10 @@ import Layout from "./common/layout";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
-  console.log("s", user)
   return (
     <Router>
       <Switch>
-        {!user ? <Switch>
-
-          <Route path="/signin" component={SignIn} exact />
-          <Redirect to="/signin" />
-        </Switch>
-          :
+        {user && user.role === "ROLE_ADMIN" ?
           <Layout>
             <Switch>
               <Route exact path="/" component={Home} />
@@ -44,6 +36,12 @@ function App() {
               <Redirect to="/" />
             </Switch>
           </Layout>
+          :
+          <Switch>
+            <Route path="/signin" component={SignIn} exact />
+            <Redirect to="/signin" />
+          </Switch>
+
         }
       </Switch>
 
