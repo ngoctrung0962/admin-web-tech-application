@@ -14,12 +14,12 @@ export default function NewUser() {
           <input type="text" placeholder="John Smith" />
         </div>
         <div className="newUserItem">
-          <label>Email</label>
-          <input type="email" placeholder="john@gmail.com" />
-        </div>
-        <div className="newUserItem">
           <label>Password</label>
           <input type="password" placeholder="password" />
+        </div>
+        <div className="newUserItem">
+          <label>Email</label>
+          <input type="email" placeholder="john@gmail.com" />
         </div>
         <div className="newUserItem">
           <label>Phone</label>
@@ -41,10 +41,10 @@ export default function NewUser() {
           </div>
         </div>
         <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+          <label>Role</label>
+          <select className="newUserSelect" name="role" id="active">
+            <option value="yes">Admin</option>
+            <option value="no">Normal</option>
           </select>
         </div>
         <button className="newUserButton">Create</button>
