@@ -8,11 +8,16 @@ import brandApi from "../../api/brandApi";
 
 export default function BrandList() {
   const [data, setData] = useState([]);
-
-  // const handleDelete = async (id) => {
-  //   await brandApi.remove(id)
-  //   setData(data.filter((item) => item.id !== id));
-  // };
+  const handleDelete = async (id) => {
+    try {
+      await brandApi.remove(id)
+      window.alert("Delete brand succes")
+      const dataFilter = data.filter(item => item.brandId !== id)
+      setData(dataFilter)
+    } catch (error) {
+      window.alert("Delete brand fail!")
+    }
+  };
   const columns = [
     { field: "brandId", headerName: "ID", width: 90 },
     { field: "name", headerName: "Name", width: 200 },
@@ -29,10 +34,10 @@ export default function BrandList() {
             <Link to={"/brand/" + params.row.brandId}>
               <button className="productListEdit">Edit</button>
             </Link>
-            {/* <DeleteOutline
+            <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.brandId)}
-            /> */}
+            />
           </>
         );
       },
@@ -43,15 +48,16 @@ export default function BrandList() {
       try {
         const res = await brandApi.getAll();
         setData(res)
-        window.scrollTo(0, 0)
       } catch (error) {
         console.log(error)
       }
     }
     fetchData();
   }, [])
+  console.log(data)
 
-
+  const datafake = [{ brandId: 'B01', name: 'Samsung', email: 'samsung@email.com', logo: 'link', location: 'Korea' },
+  { brandId: 'B02', name: 'Apple', email: 'apple@gmail.com', logo: 'link ne', location: 'USA' }]
 
 
   return (
@@ -59,14 +65,17 @@ export default function BrandList() {
       <Link to="/newbrand">
         <button className="productAddButton ">Create</button>
       </Link>
-      <DataGrid
+      {data?.length && (<DataGrid
+        rowHeight={65}
+        headerHeight={75}
         getRowId={(row) => row.brandId}
         rows={data}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
         checkboxSelection
-      />
+      />)}
+
     </div>
   );
 }

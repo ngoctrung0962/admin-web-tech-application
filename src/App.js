@@ -12,46 +12,56 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import BrandList from "./pages/brandList/BrandList";
 import Brand from "./pages/brand/Brand";
 import NewBrand from "./pages/newBrand/NewBrand";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import SignIn from './pages/signin/SignIn.page';
+import Layout from "./common/layout";
 
 function App() {
+  const user = useSelector((state) => state.user.currentUser);
+  console.log("s", user)
   return (
     <Router>
-      <Topbar />
-      <div className="container">
-        <Sidebar />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/products">
-            <ProductList />
-          </Route>
-          <Route path="/product/:productId">
-            <Product />
-          </Route>
-          <Route path="/newproduct">
-            <NewProduct />
-          </Route>
-          <Route path="/brands">
-            <BrandList />
-          </Route>
-          <Route path="/brand/:brandId">
-            <Brand />
-          </Route>
-          <Route path="/newbrand">
-            <NewBrand />
-          </Route>
+      <Switch>
+        {!user ? <Switch>
+
+          <Route path="/signin" component={SignIn} exact />
+          <Redirect to="/signin" />
         </Switch>
-      </div>
+          :
+          <Layout>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/users" component={UserList} />
+              <Route path="/user/:userId" component={User} />
+              <Route path="/newUser" component={NewUser} />
+              <Route path="/products" component={ProductList} />
+              <Route path="/product/:productId" component={Product} />
+              <Route path="/newproduct" component={NewProduct} />
+              <Route path="/brands" component={BrandList} />
+              <Route path="/brand/:brandId" component={Brand} />
+              <Route path="/newbrand" component={NewBrand} />
+              <Redirect to="/" />
+            </Switch>
+          </Layout>
+        }
+      </Switch>
+
+      {/* <Route path="/signin">{user ? <Redirect to="/" /> : <SignIn />}</Route>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/users" component={UserList} />
+          <Route path="/user/:userId" component={User} />
+          <Route path="/newUser" component={NewUser} />
+          <Route path="/products" component={ProductList} />
+          <Route path="/product/:productId" component={Product} />
+          <Route path="/newproduct" component={NewProduct} />
+          <Route path="/brands" component={BrandList} />
+          <Route path="/brand/:brandId" component={Brand} />
+          <Route path="/newbrand" component={NewBrand} />
+        </Switch>
+      </Layout> */}
     </Router>
   );
 }

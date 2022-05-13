@@ -1,9 +1,11 @@
 import { useState } from "react";
+
 import brandApi from "../../api/brandApi";
 import "./newBrand.css";
+import { useHistory } from "react-router-dom";
 
 export default function NewBrand() {
-
+  let history = useHistory();
   const initValue = { name: "", email: "", logo: "", location: "" }
   const [formvalues, setFormvalues] = useState(initValue);
   const handleChange = (e) => {
@@ -14,7 +16,8 @@ export default function NewBrand() {
     e.preventDefault();
     const res = await brandApi.add(formvalues)
     console.log(formvalues)
-    window.alert("Update succes!!")
+    window.alert("Add succes!!")
+    history.push("/brands")
   };
   return (
     <div className="newProduct">
