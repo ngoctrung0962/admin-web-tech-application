@@ -59,10 +59,10 @@ export default function Sidebar() {
                 Brands
               </li>
             </Link>
-            <li className="sidebarListItem">
+            <Link to ="/categories" className="link">
               <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
+              Categories
+            </Link>
             <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
               Reports

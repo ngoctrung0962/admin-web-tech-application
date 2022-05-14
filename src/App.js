@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import SignIn from './pages/signin/SignIn.page';
 import Layout from "./common/layout";
+import Categories from './pages/categories/Categories.page';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -33,6 +34,7 @@ function App() {
               <Route path="/brands" component={BrandList} />
               <Route path="/brand/:brandId" component={Brand} />
               <Route path="/newbrand" component={NewBrand} />
+              <Route path="/categories" component={Categories} />
               <Redirect to="/" />
             </Switch>
           </Layout>
