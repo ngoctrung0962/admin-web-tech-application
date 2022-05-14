@@ -14,6 +14,10 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import SignIn from './pages/signin/SignIn.page';
 import Layout from "./common/layout";
+import DeliveryList from "./pages/deliveryList/DeliveryList";
+import Delivery from "./pages/delivery/Delivery";
+import NewDelivery from "./pages/newDelivery/NewDelivery";
+import ReviewList from "./pages/reviewList/ReviewList";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -24,15 +28,24 @@ function App() {
           <Layout>
             <Switch>
               <Route exact path="/" component={Home} />
+
               <Route path="/users" component={UserList} />
               <Route path="/user/:userId" component={User} />
               <Route path="/newUser" component={NewUser} />
+
               <Route path="/products" component={ProductList} />
               <Route path="/product/:productId" component={Product} />
               <Route path="/newproduct" component={NewProduct} />
+
               <Route path="/brands" component={BrandList} />
               <Route path="/brand/:brandId" component={Brand} />
               <Route path="/newbrand" component={NewBrand} />
+
+              <Route path="/deliveries" component={DeliveryList} />
+              <Route path="/delivery/:deliveryId" component={Delivery} />
+              <Route path="/newdelivery" component={NewDelivery} />
+
+              <Route path="/reviews" component={ReviewList} />
               <Redirect to="/" />
             </Switch>
           </Layout>
