@@ -1,27 +1,26 @@
 import { Link } from "react-router-dom";
-import "./brand.css";
+import "./delivery.css";
 import Chart from "../../components/chart/Chart"
 import { productData } from "../../dummyData"
 import { Publish } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import brandApi from "../../api/brandApi";
+import deliveryApi from "../../api/deliveryApi";
 
-export default function Brand() {
+export default function Delivery() {
     const location = useLocation();
-    const brandId = location.pathname.split("/")[2];
-    const [brand, setBrand] = useState()
-    const initValue = { name: "", email: "", logo: "", location: "" }
-
-    const [formvalues, setFormvalues] = useState({ name: "", email: "", logo: "", location: "" });
+    const deliveryId = location.pathname.split("/")[2];
+    const [delivery, setDelivery] = useState()
+    const [formvalues, setFormvalues] = useState({ name: "", email: "", phoneNumber: "", location: "" });
     useEffect(() => {
         setFormvalues({
-            name: brand && brand.name,
-            email: brand && brand.email,
-            logo: brand && brand.logo,
-            location: brand && brand.location
+            name: delivery && delivery.name,
+            email: delivery && delivery.email,
+            phoneNumber: delivery && delivery.phoneNumber,
+            location: delivery && delivery.location
         })
-    }, [brand])
+    }, [delivery])
     console.log("a", formvalues)
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,16 +28,16 @@ export default function Brand() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await brandApi.update(formvalues, brandId)
-        setBrand(res)
+        const res = await deliveryApi.update(formvalues, deliveryId)
+        setDelivery(res)
         window.alert("Update succes!!")
     };
     //get brand
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await brandApi.get(`${brandId}`);
-                setBrand(res)
+                const res = await deliveryApi.get(`${deliveryId}`);
+                setDelivery(res)
                 console.log(res)
                 window.scrollTo(0, 0)
             } catch (error) {
@@ -46,13 +45,13 @@ export default function Brand() {
             }
         }
         fetchData();
-    }, [brandId])
+    }, [deliveryId])
 
     return (
         <div className="product">
             <div className="productTitleContainer">
-                <h1 className="productTitle">Brand</h1>
-                <Link to="/newbrand">
+                <h1 className="productTitle">Delivery</h1>
+                <Link to="/newdelivery">
                     <button className="productAddButton">Create</button>
                 </Link>
             </div>
@@ -63,24 +62,24 @@ export default function Brand() {
                 <div className="productTopRight">
                     <div className="productInfoTop">
                         <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productInfoImg" />
-                        <span className="productName">{brand ? brand.name : ""}</span>
+                        <span className="productName">{delivery ? delivery.name : ""}</span>
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
                             <span className="productInfoKey">Id:</span>
-                            <span className="productInfoValue">{brand ? brand.brandId : ""}</span>
+                            <span className="productInfoValue">{delivery ? delivery.deliveryId : ""}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Email:</span>
-                            <span className="productInfoValue">{brand ? brand.email : ""}</span>
+                            <span className="productInfoValue">{delivery ? delivery.email : ""}</span>
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">Logo:</span>
-                            <span className="productInfoValue">{brand ? brand.logo : ""}</span>
+                            <span className="productInfoKey">Phone:</span>
+                            <span className="productInfoValue">{delivery ? delivery.phoneNumber : ""}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Location:</span>
-                            <span className="productInfoValue">{brand ? brand.location : ""}</span>
+                            <span className="productInfoValue">{delivery ? delivery.location : ""}</span>
                         </div>
                     </div>
                 </div>
@@ -88,37 +87,37 @@ export default function Brand() {
             <div className="productBottom">
                 <form className="productForm" onSubmit={handleSubmit}>
                     <div className="productFormLeft">
-                        <label>Brand Name</label>
+                        <label>Delivery Name</label>
                         <input
                             type="text"
-                            placeholder={brand ? brand.name : ""}
+                            placeholder={delivery ? delivery.name : ""}
                             name="name"
                             value={formvalues.name}
                             onChange={handleChange}
                             required
                         />
-                        <label>Brand Email</label>
+                        <label>Delivery Email</label>
                         <input
                             type="text"
-                            placeholder={brand ? brand.email : ""}
+                            placeholder={delivery ? delivery.email : ""}
                             name="email"
                             value={formvalues.email}
                             onChange={handleChange}
                             required
                         />
-                        <label>Brand Logo</label>
+                        <label>Delivery Phone</label>
                         <input
                             type="text"
-                            placeholder={brand ? brand.logo : ""}
-                            name="logo"
-                            value={formvalues.logo}
+                            placeholder={delivery ? delivery.phoneNumber : ""}
+                            name="phoneNumber"
+                            value={formvalues.phoneNumber}
                             onChange={handleChange}
                             required
                         />
-                        <label>Brand Location</label>
+                        <label>Delivery Location</label>
                         <input
                             type="text"
-                            placeholder={brand ? brand.location : ""}
+                            placeholder={delivery ? delivery.location : ""}
                             name="location"
                             value={formvalues.location}
                             onChange={handleChange}
