@@ -26,10 +26,16 @@ export default function UserList() {
   //   return item;
   // });
   // console.log(rows);
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await userApi.remove(id);
+      window.alert("Delete brand succes");
+      setData(data.filter((item) => item.username !== id));
+      console.log(data);
+    } catch (error) {
+      window.alert("Delete brand fail!");
+    }
   };
-
   const columns = [
     {
       field: "stt",
@@ -124,14 +130,18 @@ export default function UserList() {
       <Link to="/newuser">
         <button className="userAddButton">Create</button>
       </Link>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        getRowId={(row) => row.username}
-        pageSize={10}
-        checkboxSelection
-      />
+      {data.length ? (
+        <DataGrid
+          rows={data}
+          disableSelectionOnClick
+          columns={columns}
+          getRowId={(row) => row.username}
+          pageSize={10}
+          checkboxSelection
+        />
+      ) : (
+        <div>No data</div>
+      )}
     </div>
   );
 }
