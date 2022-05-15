@@ -36,11 +36,9 @@ export default function FeaturedInfo() {
             return (<span className="featuredMoney">{item.total.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>)
           })
           }
-          <span className="featuredMoneyRate">
-            +1.3 <ArrowUpward className="featuredIcon"/>
-          </span>
+          
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub"></span>
       </div>
       <div className="featuredItem">
         <span className="featuredTitle">Total Revenue Of Laptop</span>
@@ -49,11 +47,8 @@ export default function FeaturedInfo() {
             return (<span className="featuredMoney">{item.total.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>)
           })
           }
-          <span className="featuredMoneyRate">
-          -1.1 <ArrowDownward className="featuredIcon negative"/>
-          </span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub"></span>
       </div>
       <div className="featuredItem">
         <span className="featuredTitle">Total Revenue Of Phone</span>
@@ -62,11 +57,9 @@ export default function FeaturedInfo() {
             return (<span className="featuredMoney">{item.total.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>)
           })
           }
-          <span className="featuredMoneyRate">
-            +2.4 <ArrowUpward className="featuredIcon"/>
-          </span>
+          
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub"></span>
       </div>
     </div>
   );

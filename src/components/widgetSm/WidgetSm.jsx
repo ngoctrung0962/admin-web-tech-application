@@ -11,7 +11,7 @@ export default function WidgetSm() {
     let temp = total.toString();
     let length = temp.length;
     if (length < 10) {
-      for (let i = 0; i < 12 - length; i++) {
+      for (let i = 0; i < 20 - length; i++) {
         temp = " " + temp;
       }
     }
