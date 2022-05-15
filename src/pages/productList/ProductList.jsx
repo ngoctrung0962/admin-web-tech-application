@@ -9,8 +9,15 @@ import productApi from "../../api/productApi";
 export default function ProductList() {
   const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await productApi.remove(id)
+      window.alert("Delete product succes")
+      const dataFilter = data.filter(item => item.productId !== id)
+      setData(dataFilter)
+    } catch (error) {
+      window.alert("Delete product fail!")
+    }
   };
   useEffect(() => {
     const fetchData = async () => {
