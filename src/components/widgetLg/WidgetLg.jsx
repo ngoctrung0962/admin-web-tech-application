@@ -1,79 +1,52 @@
 import "./widgetLg.css";
-
+import { useEffect, useState } from "react";
+import homeApi from "../../api/homeApi";
 export default function WidgetLg() {
-  const Button = ({ type }) => {
-    return <button className={"widgetLgButton " + type}>{type}</button>;
-  };
+  
+  const [product, setProduct] = useState([]);
+
+  const showListProduct = (product) => {
+    let result = "";
+    result = product.map((item, index) => {
+      return (
+        <tr className="widgetLgTr">
+          <td className="widgetLgUser">
+            <span className="widgetLgName">{item.name}</span>
+          </td>
+          <td className="widgetLgDate"style={{paddingLeft:"15px"}}>{item.sold}</td>
+          <td className="widgetLgAmount">{item.total.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</td>
+          <td className="widgetLgStatus" style={{paddingLeft:"24px"}}>
+            {item.quantityInStock}
+          </td>
+        </tr>
+      );
+    })
+    return result;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await homeApi.topProduct();
+        setProduct(res);
+        window.scrollTo(0, 0);
+      } catch (error) {
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="widgetLg">
-      <h3 className="widgetLgTitle">Latest transactions</h3>
+      <h3 className="widgetLgTitle">Top Product</h3>
       <table className="widgetLgTable">
         <tr className="widgetLgTr">
-          <th className="widgetLgTh">Customer</th>
-          <th className="widgetLgTh">Date</th>
-          <th className="widgetLgTh">Amount</th>
-          <th className="widgetLgTh">Status</th>
+          <th className="widgetLgTh">Name</th>
+          <th className="widgetLgTh">Sold</th>
+          <th className="widgetLgTh">Total</th>
+          <th className="widgetLgTh">In Stock</th>
         </tr>
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widgetLgImg"
-            />
-            <span className="widgetLgName">Susan Carol</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2021</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgStatus">
-            <Button type="Approved" />
-          </td>
-        </tr>
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widgetLgImg"
-            />
-            <span className="widgetLgName">Susan Carol</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2021</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgStatus">
-            <Button type="Declined" />
-          </td>
-        </tr>
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widgetLgImg"
-            />
-            <span className="widgetLgName">Susan Carol</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2021</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgStatus">
-            <Button type="Pending" />
-          </td>
-        </tr>
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img
-              src="https://images.pexels.com/photos/4172933/pexels-photo-4172933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="widgetLgImg"
-            />
-            <span className="widgetLgName">Susan Carol</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2021</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgStatus">
-            <Button type="Approved" />
-          </td>
-        </tr>
+        {showListProduct(product)}
       </table>
     </div>
   );
