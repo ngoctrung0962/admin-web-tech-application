@@ -4,7 +4,6 @@ import {
   MailOutline,
   PermIdentity,
   PhoneAndroid,
-  Publish,
   EmojiPeopleTwoTone,
   ViewAgenda,
 } from "@material-ui/icons";
@@ -34,7 +33,14 @@ export default function User() {
     const fetchData = async () => {
       try {
         const res = await userApi.getUserByUsername(`${username}`);
+        // update role type 1 is admin, 0 is user
+        if (res.role === "ROLE_ADMIN") {
+          res.role = 1;
+        } else {
+          res.role = 0;
+        }
         setUser(res);
+        setFormvalues(res);
         console.log(res);
         window.scrollTo(0, 0);
       } catch (error) {
@@ -46,14 +52,22 @@ export default function User() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await userApi.update(username, formvalues);
     console.log("Role .......", formvalues.role, user.role);
     const currentRole = user.role === "ROLE_ADMIN" ? 1 : 0;
     if (formvalues.role !== currentRole) {
-      userApi.changeRole(username);
+      await userApi.changeRole(username);
       console.log("change role");
     }
+    const res = await userApi.update(username, formvalues);
+    console.log(res);
+    // update role type 1 is admin, 0 is user
+    if (res.role === "ROLE_ADMIN") {
+      res.role = 1;
+    } else {
+      res.role = 0;
+    }
     setUser(res);
+    setFormvalues(res);
     window.alert("Update succes!!");
   };
   const handleChange = (e) => {
@@ -94,7 +108,9 @@ export default function User() {
             </div>
             <div className="userShowInfo">
               <EmojiPeopleTwoTone className="userShowIcon" />
-              <span className="userShowInfoTitle">{user.role}</span>
+              <span className="userShowInfoTitle">
+                {user.role === 1 ? "ROLE_ADMIN" : "ROLE_USER"}
+              </span>
             </div>
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
@@ -174,7 +190,7 @@ export default function User() {
                 <label>Date Of Birth</label>
                 <input
                   type="date"
-                  // value={formvalues.dateOfBirth}
+                  value={formvalues.dateOfBirth}
                   name="dateOfBirth"
                   onChange={handleChange}
                   placeholder={user.dateOfBirth}
