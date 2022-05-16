@@ -42,6 +42,36 @@ export default function UserList() {
   };
   const columns = [
     {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/user/" + params.row.username}>
+              <button className="userListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="userListDelete"
+              onClick={() => handleDelete(params.row.username)}
+            />
+          </>
+        );
+      },
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="userListItem">
+            {params.row.role ? params.row.role : "null"}
+          </div>
+        );
+      },
+    },
+    {
       field: "username",
       headerName: "Username",
       width: 150,
@@ -92,30 +122,12 @@ export default function UserList() {
     {
       field: "gender",
       headerName: "Gender",
-      window: 150,
+      width: 120,
       renderCell: (params) => {
         return (
           <div className="userListUser">
             {params.row.gender === true ? "Male" : "Felmale"}
           </div>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/user/" + params.row.username}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.username)}
-            />
-          </>
         );
       },
     },
@@ -129,11 +141,11 @@ export default function UserList() {
       {data.length ? (
         <DataGrid
           rows={datafill}
-          disableSelectionOnClick
+          rowHeight={65}
+          headerHeight={75}
           columns={columns}
           getRowId={(row) => row.username}
           pageSize={10}
-          checkboxSelection
         />
       ) : (
         <div>No data</div>

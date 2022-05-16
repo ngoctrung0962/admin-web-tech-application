@@ -43,6 +43,24 @@ export default function CouponList() {
   };
   const columns = [
     {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/coupon/" + params.row.couponId}>
+              <button className="userListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="userListDelete"
+              onClick={() => handleDelete(params.row.couponId)}
+            />
+          </>
+        );
+      },
+    },
+    {
       field: "couponId",
       headerName: "CouponId",
       width: 150,
@@ -90,24 +108,6 @@ export default function CouponList() {
         return <div className="userListUser">{params.row.description}</div>;
       },
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/coupon/" + params.row.couponId}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.couponId)}
-            />
-          </>
-        );
-      },
-    },
   ];
 
   return (
@@ -122,7 +122,6 @@ export default function CouponList() {
           columns={columns}
           getRowId={(row) => row.couponId}
           pageSize={10}
-          checkboxSelection
         />
       ) : (
         <div>No data</div>
