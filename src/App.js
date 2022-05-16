@@ -8,16 +8,24 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import BrandList from "./pages/brandList/BrandList";
+import CouponList from "./pages/couponList/CouponList";
 import Brand from "./pages/brand/Brand";
+import Coupon from "./pages/coupon/Coupon";
 import NewBrand from "./pages/newBrand/NewBrand";
+import NewCoupon from "./pages/newCoupon/newCoupon";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import SignIn from './pages/signin/SignIn.page';
 import Layout from "./common/layout";
+import CategoriesList from './pages/categoriesList/CategoriesList';
+import NewCategory from "./pages/newCategory/NewCategory";
+import Category from "./pages/category/Category"
 import DeliveryList from "./pages/deliveryList/DeliveryList";
 import Delivery from "./pages/delivery/Delivery";
 import NewDelivery from "./pages/newDelivery/NewDelivery";
 import ReviewList from "./pages/reviewList/ReviewList";
+import OrdersList from './pages/ordersList/OrdersList';
+import Order from './pages/order/Order';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -40,12 +48,24 @@ function App() {
               <Route path="/brands" component={BrandList} />
               <Route path="/brand/:brandId" component={Brand} />
               <Route path="/newbrand" component={NewBrand} />
+              <Route path="/coupons" component={CouponList} />
+              <Route path="/newcoupon" component={NewCoupon} />
+              <Route path="/coupon/:couponId" component={Coupon} />
+              
+              <Route path="/categories" component={CategoriesList} />
+              <Route path="/newcategory" component={NewCategory} />
+              <Route path="/category/:categoryId" component={Category} />
 
               <Route path="/deliveries" component={DeliveryList} />
               <Route path="/delivery/:deliveryId" component={Delivery} />
               <Route path="/newdelivery" component={NewDelivery} />
 
               <Route path="/reviews" component={ReviewList} />
+
+              <Route path="/orders" component={OrdersList} />
+              <Route path="/order/:orderId" component={Order} />
+              <Route path="/neworder/" component={Order} />
+
               <Redirect to="/" />
             </Switch>
           </Layout>

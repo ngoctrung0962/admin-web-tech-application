@@ -4,8 +4,10 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
+import { useSelector } from "react-redux";
 
 export default function UserList() {
+  const user = useSelector((state) => state.user.currentUser);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,25 +22,25 @@ export default function UserList() {
     };
     fetchData();
   }, []);
-  //add fill id to the data
+  //fill data differently user.username
+  const datafill = data.filter((item) => item.username !== user.username);
+  // add fill id to the data
   // const rows = data.map((item, index) => {
   //   item.id = index;
   //   return item;
   // });
   // console.log(rows);
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await userApi.remove(id);
+      window.alert("Delete user succes");
+      setData(data.filter((item) => item.username !== id));
+      console.log(data);
+    } catch (error) {
+      window.alert("Delete user fail!");
+    }
   };
-
   const columns = [
-    {
-      field: "stt",
-      headerName: "STT",
-      width: 100,
-      renderCell: (params) => {
-        return <span>{params.id + 1}</span>;
-      },
-    },
     {
       field: "username",
       headerName: "Username",
@@ -124,14 +126,18 @@ export default function UserList() {
       <Link to="/newuser">
         <button className="userAddButton">Create</button>
       </Link>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        getRowId={(row) => row.username}
-        pageSize={10}
-        checkboxSelection
-      />
+      {data.length ? (
+        <DataGrid
+          rows={datafill}
+          disableSelectionOnClick
+          columns={columns}
+          getRowId={(row) => row.username}
+          pageSize={10}
+          checkboxSelection
+        />
+      ) : (
+        <div>No data</div>
+      )}
     </div>
   );
 }

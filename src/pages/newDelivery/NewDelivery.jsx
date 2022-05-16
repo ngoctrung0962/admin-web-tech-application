@@ -11,6 +11,7 @@ export default function NewDelivery() {
   const [formvalues, setFormvalues] = useState(initValue);
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log({name, value});
     setFormvalues({ ...formvalues, [name]: value });
   }
   const handleSubmit = async (e) => {
