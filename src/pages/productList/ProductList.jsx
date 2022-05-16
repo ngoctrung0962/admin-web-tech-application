@@ -35,8 +35,44 @@ export default function ProductList() {
 
 
   const columns = [
-    { field: "productId", headerName: "ID", width: 90 },
-    { field: "name", headerName: "Name", width: 120 },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/product/" + params.row.productId}>
+              <button className="productListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="productListDelete"
+              onClick={() => handleDelete(params.row.productId)}
+            />
+          </>
+        );
+      }
+    },
+    {
+      field: "productId", headerName: "ID", width: 90,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            {params.row.productId ? params.row.productId : "null"}
+          </div>
+        );
+      },
+    },
+    {
+      field: "name", headerName: "Name", width: 120,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            {params.row.name ? params.row.name : "null"}
+          </div>
+        );
+      },
+    },
     {
       field: "category", headerName: "Category", width: 200,
       renderCell: (params) => {
@@ -196,25 +232,8 @@ export default function ProductList() {
           </div>
         );
       },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/product/" + params.row.productId}>
-              <button className="productListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.productId)}
-            />
-          </>
-        );
-      }
     }
+
     // {
     //   field: "product",
     //   headerName: "Product",
@@ -272,7 +291,6 @@ export default function ProductList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />)}
 
     </div>

@@ -18,6 +18,21 @@ export default function ReviewList() {
     }
   };
   const columns = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <DeleteOutline
+              className="productListDelete"
+              onClick={() => handleDelete(params.row.username, params.row.reviewId)}
+            />
+          </>
+        );
+      },
+    },
     { field: "reviewId", headerName: "ID", width: 90 },
     {
       field: "content", headerName: "Content", width: 250,
@@ -68,22 +83,8 @@ export default function ReviewList() {
           </div >
         );
       },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.username, params.row.reviewId)}
-            />
-          </>
-        );
-      },
     }
+
   ];
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +110,6 @@ export default function ReviewList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />)}
     </div>
   );

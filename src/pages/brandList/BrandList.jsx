@@ -19,7 +19,34 @@ export default function BrandList() {
     }
   };
   const columns = [
-    { field: "brandId", headerName: "ID", width: 90 },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/brand/" + params.row.brandId}>
+              <button className="productListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="productListDelete"
+              onClick={() => handleDelete(params.row.brandId)}
+            />
+          </>
+        );
+      },
+    },
+    {
+      field: "brandId", headerName: "ID", width: 90,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.brandId ? params.row.brandId : "null"}
+          </div >
+        );
+      },
+    },
     {
       field: "name", headerName: "Name", width: 200,
       renderCell: (params) => {
@@ -59,25 +86,8 @@ export default function BrandList() {
           </div >
         );
       },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/brand/" + params.row.brandId}>
-              <button className="productListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.brandId)}
-            />
-          </>
-        );
-      },
     }
+
   ];
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +119,6 @@ export default function BrandList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />)}
 
     </div>

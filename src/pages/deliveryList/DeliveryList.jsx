@@ -20,6 +20,24 @@ export default function DeliveryList() {
     }
   };
   const columns = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/delivery/" + params.row.deliveryId}>
+              <button className="productListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="productListDelete"
+              onClick={() => handleDelete(params.row.deliveryId)}
+            />
+          </>
+        );
+      },
+    },
     { field: "deliveryId", headerName: "ID", width: 90 },
     {
       field: "name", headerName: "Name", width: 200,
@@ -60,25 +78,8 @@ export default function DeliveryList() {
           </div >
         );
       },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/delivery/" + params.row.deliveryId}>
-              <button className="productListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.deliveryId)}
-            />
-          </>
-        );
-      },
     }
+
   ];
   useEffect(() => {
     const fetchData = async () => {
@@ -107,7 +108,6 @@ export default function DeliveryList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-        checkboxSelection
       />)}
 
     </div>
