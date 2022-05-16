@@ -1,11 +1,12 @@
-import "./categories.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 
-import { getAllCategories, getCategory, insertCategory, deleteCategory, updateCategories } from '../../api/categoriesApi'
+import "./categories.css";
+import categoryApi from '../../api/categoryApi';
+import { showNotification } from '../../utils/showNotification';
 
 export default function CategoriesList() {
 
@@ -13,34 +14,38 @@ export default function CategoriesList() {
     let history = useHistory();
     const [data, setData] = useState([]);
 
-    useEffect( () => {
-        const fetchData = async () => {
-            try {
-                if (user) {
-                    const res = await getAllCategories();
-                    if(res !== null && res !== undefined) {
-                        setData(res);
-                    }
-                    window.scrollTo(0, 0);
+    useEffect(async () => {
+        try {
+            if (user) {
+                const res = await categoryApi.getAll();
+                if (res !== null && res !== undefined) {
+                    setData(res);
                 }
-                else {
-                    history.push('/signin')
-                }
-            } catch (error) {
-                console.log(error);
+                window.scrollTo(0, 0);
             }
+            else {
+                history.push('/signin');
+            }
+        } catch (error) {
+            console.log(error);
         }
-    
-        fetchData();
-
     }, []);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
+    useEffect(() =>{
+        if(!user){
+            history.push('/signin');
+        }
+    }, [user])
 
-    const handleDelete = (id) => {
-        setData(data.filter((item) => item.categoryId !== id));
+    const handleDelete = async(id) => {
+        const res = await categoryApi.remove(id);
+        if(res !== undefined && res !== null){
+            showNotification('success', 'Great', 'Delete Category successful', 'OK');
+            const newData = await categoryApi.getAll();
+            if(newData !== undefined && newData !== null){
+                setData(newData);
+            }
+        }
     };
 
     const columns = [
@@ -49,7 +54,7 @@ export default function CategoriesList() {
             headerName: "ID",
             width: 300,
             renderCell: (params) => {
-                return <span>{params.id + 1}</span>;
+                return <span>{params.row.categoryId}</span>;
             },
         },
         {
@@ -67,7 +72,7 @@ export default function CategoriesList() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/categories/" + params.row.categoryId}>
+                        <Link to={'/category/' + params.row.categoryId}>
                             <button className="userListEdit">Edit</button>
                         </Link>
                         <DeleteOutline
@@ -82,17 +87,19 @@ export default function CategoriesList() {
 
     return (
         <div className="userList">
-            <Link to="/newuser">
+            <Link to="/newcategory">
                 <button className="userAddButton">Create</button>
             </Link>
-            <DataGrid
-                rows={data}
-                disableSelectionOnClick
-                columns={columns}
-                getRowId={(row) => row.categoryId}
-                pageSize={10}
-                checkboxSelection
-            />
+            {data?.length && (
+                <DataGrid
+                    rows={data}
+                    disableSelectionOnClick
+                    columns={columns}
+                    getRowId={(row) => row.categoryId}
+                    pageSize={10}
+                    checkboxSelection
+                />
+            )}
         </div>
     );
 }
