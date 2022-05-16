@@ -13,10 +13,12 @@ import {
   WorkOutline,
   Report,
 } from "@material-ui/icons";
-import CategoryIcon from '@mui/icons-material/Category';
-import ReviewsIcon from '@mui/icons-material/Reviews';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import DiscountIcon from "@mui/icons-material/Discount";
+import CategoryIcon from "@mui/icons-material/Category";
+import ReviewsIcon from "@mui/icons-material/Reviews";
+import ClassIcon from "@mui/icons-material/Class";
+import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -61,13 +63,13 @@ export default function Sidebar() {
 
             <Link to="/brands" className="link">
               <li className="sidebarListItem">
-                <LocalOfferIcon className="sidebarIcon" />
+                <ClassIcon className="sidebarIcon" />
                 Brands
               </li>
             </Link>
             <Link to="/coupons" className="link">
               <li className="sidebarListItem">
-                <Storefront className="sidebarIcon" />
+                <DiscountIcon className="sidebarIcon" />
                 Coupon
               </li>
             </Link>
@@ -79,7 +81,6 @@ export default function Sidebar() {
               <BarChart className="sidebarIcon" />
               Reports
             </li>
-
 
             <Link to="/deliveries" className="link">
               <li className="sidebarListItem">
@@ -99,14 +100,13 @@ export default function Sidebar() {
                 <AttachMoney className="sidebarIcon" />
                 Categories
               </li>
-            </Link >
+            </Link>
             <Link to="/orders" className="link">
               <li className="sidebarListItem">
                 <BarChart className="sidebarIcon" />
                 Orders
               </li>
             </Link>
-
           </ul>
         </div>
         <div className="sidebarMenu">

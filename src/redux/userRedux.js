@@ -8,15 +8,6 @@ export const login = async (dispatch, data, username) => {
     if (data.AccessToken && data.RefreshToken && data.role === "ROLE_ADMIN") {
         await saveToken(data.AccessToken, data.RefreshToken)
         const userdata = await userApi.getUserByUsername(username)
-        if (userdata.role === "ROLE_ADMIN") {
-            dispatch(loginSuccess(userdata))
-            localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
-            window.alert("success")
-        }
-        else {
-            dispatch(loginFailure());
-            localStorage.clear()
-        }
         dispatch(loginSuccess(userdata))
         localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
         window.alert("success")
