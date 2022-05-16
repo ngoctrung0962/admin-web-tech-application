@@ -1,8 +1,8 @@
 import React from "react";
 import "./topbar.css";
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../redux/userRedux";
 
@@ -17,13 +17,13 @@ export default function Topbar() {
     setAnchorEl(null);
   };
   const handlelogout = () => {
-    dispatch(Logout())
-  }
+    dispatch(Logout());
+  };
   return (
     <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <span className="logo">lamaadmin</span>
+          <span className="logo">TechShopAdmin</span>
         </div>
         <div className="topRight">
           {/* <div className="topbarIconContainer">
@@ -42,15 +42,18 @@ export default function Topbar() {
               open={open}
               onClose={handleClose}
               MenuListProps={{
-                'aria-labelledby': 'basic-button',
+                "aria-labelledby": "basic-button",
               }}
             >
               <MenuItem onClick={handleClose}>My Account</MenuItem>
               <MenuItem onClick={handlelogout}>Logout</MenuItem>
-
             </Menu>
           </div>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
+          <img
+            src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            alt=""
+            className="topAvatar"
+          />
         </div>
       </div>
     </div>
