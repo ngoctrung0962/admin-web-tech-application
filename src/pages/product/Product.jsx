@@ -18,7 +18,31 @@ export default function Product() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await productApi.update(formvalues, productId)
+        const formdata = {
+            name: formvalues.name,
+            category: {
+                categoryId: formvalues.categoryId,
+            },
+            brand: {
+                brandId: formvalues.brandId,
+            },
+            image: formvalues.image,
+            quantity: formvalues.quantity,
+            saleDate: formvalues.saleDate,
+            ram: formvalues.ram,
+            rom: formvalues.rom,
+            frontCam: formvalues.frontCam,
+            backCam: formvalues.backCam,
+            os: formvalues.os,
+            screen: formvalues.screen,
+            cpu: formvalues.cpu,
+            battery: formvalues.battery,
+            weight: formvalues.weight,
+            vga: formvalues.vga,
+            description: formvalues.description,
+            price: formvalues.price,
+        }
+        const res = await productApi.update(formdata, productId)
         setProduct(res)
         window.alert("Update succes!!")
     };
