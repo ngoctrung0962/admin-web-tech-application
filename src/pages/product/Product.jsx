@@ -10,6 +10,18 @@ import brandApi from "../../api/brandApi";
 import categoryApi from "../../api/categoryApi";
 
 export default function Product() {
+
+    const formatDate = (date) => {
+        var d = new Date(date),
+            month =
+                "" + (d.getMonth() + 1) > 9
+                    ? d.getMonth() + 1
+                    : "0" + (d.getMonth() + 1),
+            day = "" + d.getDate() > 9 ? d.getDate() : "0" + d.getDate(),
+            year = d.getFullYear();
+        return [year, month, day].join("-");
+    };
+
     const location = useLocation();
     const productId = location.pathname.split("/")[2];
     const [product, setProduct] = useState()
@@ -164,7 +176,7 @@ export default function Product() {
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Sale Date: </span>
-                            <span className="productInfoValue">{product ? product.saleDate : "Null"}</span>
+                            <span className="productInfoValue">{product ? formatDate(product.saleDate) : "Null"}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Ram: </span>
@@ -265,10 +277,10 @@ export default function Product() {
                         />
                         <label>Product Sale Date</label>
                         <input
-                            type="text"
-                            placeholder={product ? product.saleDate : ""}
+                            type="date"
+                            // placeholder={product ? product.saleDate : ""}
                             name="saleDate"
-                            value={formvalues.saleDate === "" ? (product ? product.saleDate : "") : formvalues.saleDate}
+                            value={formvalues.saleDate === "" ? (product ? formatDate(product.saleDate) : "") : formatDate(formvalues.saleDate)}
                             onChange={handleChange}
                         />
                         <label>Product RAM</label>

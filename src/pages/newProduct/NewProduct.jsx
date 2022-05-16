@@ -4,6 +4,7 @@ import brandApi from "../../api/brandApi";
 import categoryApi from "../../api/categoryApi";
 import { useHistory } from "react-router-dom";
 import productApi from "../../api/productApi";
+import axios from "axios";
 
 export default function NewProduct() {
   let history = useHistory();
@@ -11,8 +12,12 @@ export default function NewProduct() {
     name: "", categoryId: "", brandId: "", image: "", quantity: "", saleDate: "", ram: "", rom: "", frontCam: "", backCam: "",
     os: "", screen: "", cpu: "", battery: "", weight: "", vga: "", description: "", price: ""
   }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newsaledate = await new Date();
+
     const formdata = {
       name: formvalues.name,
       category: {
@@ -23,7 +28,7 @@ export default function NewProduct() {
       },
       image: formvalues.image,
       quantity: formvalues.quantity,
-      saleDate: formvalues.saleDate,
+      saleDate: formatDate(newsaledate),
       ram: formvalues.ram,
       rom: formvalues.rom,
       frontCam: formvalues.frontCam,
@@ -41,11 +46,21 @@ export default function NewProduct() {
     window.alert("Add succes!!")
     history.push("/products")
     console.log(formdata)
-
+  };
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month =
+        "" + (d.getMonth() + 1) > 9
+          ? d.getMonth() + 1
+          : "0" + (d.getMonth() + 1),
+      day = "" + d.getDate() > 9 ? d.getDate() : "0" + d.getDate(),
+      year = d.getFullYear();
+    return [year, month, day].join("-");
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormvalues({ ...formvalues, [name]: value });
+    console.log(formvalues)
   }
   const [formvalues, setFormvalues] = useState(initValue);
   const [listbrands, setListbrands] = useState([])
@@ -79,7 +94,17 @@ export default function NewProduct() {
     fetchData();
   }, [])
 
-
+  const [currenfileimage, setCurrentfileimage] = useState(null)
+  const handlefilechange = (e) => {
+    setCurrentfileimage(e.target.files[0])
+  }
+  const handleUploadfile = async (e) => {
+    e.preventDefault();
+    const res = await productApi.uploadfileimage(currenfileimage)
+    console.log(res)
+    setFormvalues({ ...formvalues, image: res })
+  }
+  console.log(formvalues)
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>
@@ -117,12 +142,13 @@ export default function NewProduct() {
         <div className="addProductItem">
           <label>Product Image</label>
           <input
-            type="text"
+            type="file"
             name="image"
-            value={formvalues.image}
-            onChange={handleChange}
+            // value={formvalues.image}
+            onChange={handlefilechange}
 
           />
+          <button onClick={handleUploadfile}>Upload</button>
         </div>
         <div className="addProductItem">
           <label>Product Quantity</label>
@@ -135,7 +161,7 @@ export default function NewProduct() {
 
           />
         </div>
-        <div className="addProductItem">
+        {/* <div className="addProductItem">
           <label>Product Sale Date</label>
           <input
             type="text"
@@ -144,7 +170,7 @@ export default function NewProduct() {
             value={formvalues.saleDate}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
         <div className="addProductItem">
           <label>Product RAM</label>
           <input

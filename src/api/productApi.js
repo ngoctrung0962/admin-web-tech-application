@@ -27,8 +27,13 @@ const productApi = {
     getproductbybrandId(brandId) {
         const url = `/products/brand/${brandId}`
         return axiosClient.get(url);
+    },
+    uploadfileimage(data) {
+        const formData = new FormData()
+        formData.append('image', data)
+        const url = `/uploadImage`
+        return axiosClient.post(url, formData);
     }
-
 }
 
 export default productApi;

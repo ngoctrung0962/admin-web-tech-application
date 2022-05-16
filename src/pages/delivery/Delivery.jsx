@@ -56,15 +56,16 @@ export default function Delivery() {
                 </Link>
             </div>
             <div className="productTop">
-                <div className="productTopLeft">
+                {/* <div className="productTopLeft">
                     <Chart data={productData} dataKey="Sales" title="Sales Performance" />
-                </div>
+                </div> */}
                 <div className="productTopRight">
                     <div className="productInfoTop">
                         <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productInfoImg" />
                         <span className="productName">{delivery ? delivery.name : ""}</span>
                     </div>
                     <div className="productInfoBottom">
+
                         <div className="productInfoItem">
                             <span className="productInfoKey">Id:</span>
                             <span className="productInfoValue">{delivery ? delivery.deliveryId : ""}</span>
@@ -85,6 +86,7 @@ export default function Delivery() {
                 </div>
             </div>
             <div className="productBottom">
+                <h2 style={{ padding: "10px" }}>Edit</h2>
                 <form className="productForm" onSubmit={handleSubmit}>
                     <div className="productFormLeft">
                         <label>Delivery Name</label>
