@@ -23,7 +23,7 @@ const userApi = {
     //delete user
     remove(username) {
         const url = `/users/${username}`
-        return axiosClient.delete(url);
+        return axiosClient.delete(url,username);
     },
     update(username, data) {
         const url = `/users/${username}`

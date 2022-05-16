@@ -20,7 +20,17 @@ export default function CouponList() {
     };
     fetchData();
   }, []);
-
+  // format date to yyyy-mm-dd
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month =
+        "" + (d.getMonth() + 1) > 9
+          ? d.getMonth() + 1
+          : "0" + (d.getMonth() + 1),
+      day = "" + d.getDate() > 9 ? d.getDate() : "0" + d.getDate(),
+      year = d.getFullYear();
+    return [year, month, day].join("-");
+  };
   const handleDelete = async (id) => {
     try {
       await couponApi.remove(id);
@@ -32,14 +42,6 @@ export default function CouponList() {
     }
   };
   const columns = [
-    {
-      field: "stt",
-      headerName: "STT",
-      width: 100,
-      renderCell: (params) => {
-        return <span>{params.id}</span>;
-      },
-    },
     {
       field: "couponId",
       headerName: "CouponId",
@@ -61,7 +63,11 @@ export default function CouponList() {
       headerName: "ExpiredTime",
       width: 170,
       renderCell: (params) => {
-        return <div className="userListUser">{params.row.expiredTime}</div>;
+        return (
+          <div className="userListUser">
+            {formatDate(params.row.expiredTime)}
+          </div>
+        );
       },
     },
     {
@@ -69,7 +75,11 @@ export default function CouponList() {
       headerName: "EffectiveTime",
       width: 170,
       renderCell: (params) => {
-        return <div className="userListUser">{params.row.effectiveTime}</div>;
+        return (
+          <div className="userListUser">
+            {formatDate(params.row.effectiveTime)}
+          </div>
+        );
       },
     },
     {

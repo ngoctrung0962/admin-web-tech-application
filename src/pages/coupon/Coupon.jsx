@@ -42,6 +42,18 @@ export default function User() {
     fetchData();
   }, [couponId]);
 
+  // format date to yyyy-mm-dd
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month =
+        "" + (d.getMonth() + 1) > 9
+          ? d.getMonth() + 1
+          : "0" + (d.getMonth() + 1),
+      day = "" + d.getDate() > 9 ? d.getDate() : "0" + d.getDate(),
+      year = d.getFullYear();
+    return [year, month, day].join("-");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await couponApi.update(couponId, formvalues);
@@ -62,36 +74,12 @@ export default function User() {
         </Link>
       </div>
       <div className="userContainer">
-        <div className="userShow">
-          <div className="userShowBottom">
-            <div className="userShowInfo">
-              <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">{coupon.couponId}</span>
-            </div>
-            <div className="userShowInfo">
-              <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">{coupon.discount}</span>
-            </div>
-            <div className="userShowInfo">
-              <EmojiPeopleTwoTone className="userShowIcon" />
-              <span className="userShowInfoTitle">{coupon.expiredTime}</span>
-            </div>
-            <div className="userShowInfo">
-              <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">{coupon.effectiveTime}</span>
-            </div>
-            <div className="userShowInfo">
-              <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">{coupon.description}</span>
-            </div>
-          </div>
-        </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
           <form className="userUpdateForm" onSubmit={handleSubmit}>
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
-                <label>Username</label>
+                <label>CouponId</label>
                 <input
                   type="text"
                   value={couponId}
@@ -116,7 +104,7 @@ export default function User() {
                 <label>ExpiredTime</label>
                 <input
                   type="date"
-                  value={formvalues.expiredTime}
+                  value={formatDate(formvalues.expiredTime)}
                   name="expiredTime"
                   onChange={handleChange}
                   placeholder={coupon.expiredTime}
@@ -127,7 +115,7 @@ export default function User() {
                 <label>EffectiveTime</label>
                 <input
                   type="date"
-                  value={formvalues.effectiveTime}
+                  value={formatDate(coupon.effectiveTime)}
                   onChange={handleChange}
                   name="effectiveTime"
                   placeholder={coupon.effectiveTime}
@@ -148,6 +136,9 @@ export default function User() {
             </div>
 
             <div className="userUpdateRight">
+              <Link to="/coupons">
+                <button className="buttonBack">Back</button>
+              </Link>
               <button type="submit" className="userUpdateButton">
                 Update
               </button>

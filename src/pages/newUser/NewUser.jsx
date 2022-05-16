@@ -3,6 +3,7 @@ import { useState } from "react";
 import userApi from "../../api/userApi";
 import { formatDateToLocalInputDate } from "@material-ui/data-grid";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function NewUser() {
   let history = useHistory();
@@ -134,6 +135,10 @@ export default function NewUser() {
             </select>
           </div>
         </div>
+        {/* button back */}
+        <Link to="/users">
+          <button className="NewUserBack">Back</button>
+        </Link>
         <button className="newUserButton">Create</button>
       </form>
     </div>

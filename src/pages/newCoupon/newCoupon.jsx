@@ -2,6 +2,7 @@ import couponApi from "../../api/couponApi";
 import "./newCoupon.css";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NewCoupon() {
   let history = useHistory();
@@ -78,6 +79,10 @@ export default function NewCoupon() {
             required
           />
         </div>
+        {/* button back */}
+        <Link to="/coupons" className="buttonBack">
+          Back
+        </Link>
         <button type="submit" className="addProductButton">
           Create
         </button>

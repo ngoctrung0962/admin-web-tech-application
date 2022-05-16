@@ -2,9 +2,6 @@
   position: relative;
 }
 .ButtonBack{
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
   cursor: pointer;
   border: 2px;
   padding: 5px;
@@ -114,6 +111,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    width: 400px;
 }
 
 .userUpdateItem{

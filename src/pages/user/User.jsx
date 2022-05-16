@@ -72,14 +72,8 @@ export default function User() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
             <div className="userShowTopTitle">
               <span className="userShowUsername">{user.name}</span>
-              <span className="userShowUserTitle">Software Engineer</span>
             </div>
           </div>
           <div className="userShowBottom">
@@ -116,10 +110,6 @@ export default function User() {
               <span className="userShowInfoTitle">{user.address}</span>
             </div>
           </div>
-          {/* button back */}
-          <Link to="/users">
-            <button className="ButtonBack">Back</button>
-          </Link>
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
@@ -220,17 +210,10 @@ export default function User() {
               </div>
             </div>
             <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
-              </div>
+              {/* button back */}
+              <Link to="/users">
+                <button className="ButtonBack">Back</button>
+              </Link>
               <button type="submit" className="userUpdateButton">
                 Update
               </button>

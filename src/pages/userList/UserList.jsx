@@ -4,8 +4,10 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
+import { useSelector } from "react-redux";
 
 export default function UserList() {
+  const user = useSelector((state) => state.user.currentUser);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,6 +22,8 @@ export default function UserList() {
     };
     fetchData();
   }, []);
+  //fill data differently user.username
+  const datafill = data.filter((item) => item.username !== user.username);
   // add fill id to the data
   // const rows = data.map((item, index) => {
   //   item.id = index;
@@ -124,7 +128,7 @@ export default function UserList() {
       </Link>
       {data.length ? (
         <DataGrid
-          rows={data}
+          rows={datafill}
           disableSelectionOnClick
           columns={columns}
           getRowId={(row) => row.username}
