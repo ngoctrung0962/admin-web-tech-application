@@ -13,17 +13,29 @@ import "./user.css";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
+import { formatDateToLocalInputDate } from "@material-ui/data-grid";
 
 export default function User() {
   const location = useLocation();
   const username = location.pathname.split("/")[2];
   const [user, setUser] = useState({});
+  const initValue = {
+    name: "",
+    email: "",
+    phoneNumber: "",
+    dateOfBirth: formatDateToLocalInputDate(new Date()),
+    address: "",
+    gender: true,
+    role: 0,
+  };
+  const [formvalues, setFormvalues] = useState(initValue);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await userApi.getUserByUsername(`${username}`);
         setUser(res);
+        console.log(res);
         window.scrollTo(0, 0);
       } catch (error) {
         console.log(error);
@@ -32,7 +44,22 @@ export default function User() {
     fetchData();
   }, [username]);
 
-  console.log(user);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await userApi.update(username, formvalues);
+    console.log("Role .......", formvalues.role, user.role);
+    const currentRole = user.role === "ROLE_ADMIN" ? 1 : 0;
+    if (formvalues.role !== currentRole) {
+      userApi.changeRole(username);
+      console.log("change role");
+    }
+    setUser(res);
+    window.alert("Update succes!!");
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormvalues({ ...formvalues, [name]: value });
+  };
 
   return (
     <div className="user">
@@ -45,14 +72,8 @@ export default function User() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
             <div className="userShowTopTitle">
               <span className="userShowUsername">{user.name}</span>
-              <span className="userShowUserTitle">Software Engineer</span>
             </div>
           </div>
           <div className="userShowBottom">
@@ -92,12 +113,15 @@ export default function User() {
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
-          <form className="userUpdateForm">
+          <form className="userUpdateForm" onSubmit={handleSubmit}>
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
                 <label>Username</label>
                 <input
                   type="text"
+                  value={username}
+                  //enable editing
+                  disabled
                   placeholder="annabeck99"
                   className="userUpdateInput"
                 />
@@ -106,7 +130,10 @@ export default function User() {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder="Anna Becker"
+                  value={formvalues.name}
+                  onChange={handleChange}
+                  name="name"
+                  placeholder={user.name}
                   className="userUpdateInput"
                 />
               </div>
@@ -114,7 +141,10 @@ export default function User() {
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  value={formvalues.email}
+                  name="email"
+                  onChange={handleChange}
+                  placeholder={user.email}
                   className="userUpdateInput"
                 />
               </div>
@@ -122,7 +152,10 @@ export default function User() {
                 <label>Phone</label>
                 <input
                   type="text"
-                  placeholder="+1 123 456 67"
+                  value={formvalues.phoneNumber}
+                  onChange={handleChange}
+                  name="phoneNumber"
+                  placeholder={user.phoneNumber}
                   className="userUpdateInput"
                 />
               </div>
@@ -130,7 +163,10 @@ export default function User() {
                 <label>Address</label>
                 <input
                   type="text"
-                  placeholder="New York | USA"
+                  value={formvalues.address}
+                  onChange={handleChange}
+                  name="address"
+                  placeholder={user.address}
                   className="userUpdateInput"
                 />
               </div>
@@ -138,13 +174,22 @@ export default function User() {
                 <label>Date Of Birth</label>
                 <input
                   type="date"
-                  placeholder="2020-01-01"
+                  // value={formvalues.dateOfBirth}
+                  name="dateOfBirth"
+                  onChange={handleChange}
+                  placeholder={user.dateOfBirth}
                   className="userUpdateInput"
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Gender</label>
-                <select id="gender" name="gender" className="userUpdateInput">
+                <select
+                  id="gender"
+                  name="gender"
+                  className="userUpdateInput"
+                  onChange={handleChange}
+                  value={formvalues.gender}
+                >
                   <option value={true}>Male</option>
                   <option value={false}>Felmale</option>
                   <option value="Khac">Orther</option>
@@ -152,25 +197,26 @@ export default function User() {
               </div>
               <div className="userUpdateItem">
                 <label>Role</label>
-                <select id="role" name="role" className="userUpdateInput">
-                  <option value={true}>ROLE_ADMIN</option>
-                  <option value={false}>ROLE_USER</option>
+                <select
+                  id="role"
+                  name="role"
+                  className="userUpdateInput"
+                  onChange={handleChange}
+                  value={formvalues.role}
+                >
+                  <option value={1}>ROLE_ADMIN</option>
+                  <option value={0}>ROLE_USER</option>
                 </select>
               </div>
             </div>
             <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
-              </div>
-              <button className="userUpdateButton">Update</button>
+              {/* button back */}
+              <Link to="/users">
+                <button className="ButtonBack">Back</button>
+              </Link>
+              <button type="submit" className="userUpdateButton">
+                Update
+              </button>
             </div>
           </form>
         </div>

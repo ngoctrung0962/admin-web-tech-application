@@ -1,14 +1,3 @@
-.userShow{
-  position: relative;
-}
-.ButtonBack{
-  cursor: pointer;
-  border: 2px;
-  padding: 5px;
-  font-weight: 600;
-  background-color: aqua;
-}
-
 .user {
   flex: 4;
   padding: 20px;
@@ -34,6 +23,7 @@
 .userContainer {
   display: flex;
   margin-top: 20px;
+  width: 50%;
 }
 
 .userShow {
@@ -111,7 +101,6 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    width: 400px;
 }
 
 .userUpdateItem{
@@ -132,9 +121,15 @@
     border-bottom: 1px solid gray;
 }
 
+.buttonBack{
+  /* margin-right: 10px; */
+}
+
 .userUpdateRight{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 25%;
     justify-content: space-between;
 }
 
