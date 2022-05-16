@@ -35,6 +35,7 @@ export default function User() {
       try {
         const res = await userApi.getUserByUsername(`${username}`);
         setUser(res);
+        console.log(res);
         window.scrollTo(0, 0);
       } catch (error) {
         console.log(error);
@@ -46,6 +47,12 @@ export default function User() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await userApi.update(username, formvalues);
+    console.log("Role .......", formvalues.role, user.role);
+    const currentRole = user.role === "ROLE_ADMIN" ? 1 : 0;
+    if (formvalues.role !== currentRole) {
+      userApi.changeRole(username);
+      console.log("change role");
+    }
     setUser(res);
     window.alert("Update succes!!");
   };
@@ -109,6 +116,10 @@ export default function User() {
               <span className="userShowInfoTitle">{user.address}</span>
             </div>
           </div>
+          {/* button back */}
+          <Link to="/users">
+            <button className="ButtonBack">Back</button>
+          </Link>
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>

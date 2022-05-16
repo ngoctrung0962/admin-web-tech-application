@@ -20,7 +20,7 @@ export default function UserList() {
     };
     fetchData();
   }, []);
-  //add fill id to the data
+  // add fill id to the data
   // const rows = data.map((item, index) => {
   //   item.id = index;
   //   return item;
@@ -29,22 +29,14 @@ export default function UserList() {
   const handleDelete = async (id) => {
     try {
       await userApi.remove(id);
-      window.alert("Delete brand succes");
+      window.alert("Delete user succes");
       setData(data.filter((item) => item.username !== id));
       console.log(data);
     } catch (error) {
-      window.alert("Delete brand fail!");
+      window.alert("Delete user fail!");
     }
   };
   const columns = [
-    {
-      field: "stt",
-      headerName: "STT",
-      width: 100,
-      renderCell: (params) => {
-        return <span>{params.id + 1}</span>;
-      },
-    },
     {
       field: "username",
       headerName: "Username",

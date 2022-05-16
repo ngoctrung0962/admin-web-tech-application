@@ -17,11 +17,16 @@ export default function NewUser() {
     gender: true,
     role: 0,
   };
+
   const [formvalues, setFormvalues] = useState(initValue);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formvalues);
-    const res = await userApi.add(formvalues);
+    const res = await userApi.add(
+      formvalues.username,
+      formvalues.password,
+      formvalues
+    );
     window.alert("Add succes!!");
     history.push("/users");
   };
@@ -128,20 +133,6 @@ export default function NewUser() {
               <option value="Khac">Orther</option>
             </select>
           </div>
-        </div>
-        <div className="newUserItem">
-          <label>Role</label>
-          <select
-            id="role"
-            name="role"
-            className="userUpdateInput"
-            value={formvalues.role}
-            onChange={handleChange}
-            required
-          >
-            <option value={1}>ROLE_ADMIN</option>
-            <option value={0}>ROLE_USER</option>
-          </select>
         </div>
         <button className="newUserButton">Create</button>
       </form>

@@ -10,8 +10,11 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import BrandList from "./pages/brandList/BrandList";
+import CouponList from "./pages/couponList/CouponList";
 import Brand from "./pages/brand/Brand";
+import Coupon from "./pages/coupon/Coupon";
 import NewBrand from "./pages/newBrand/NewBrand";
+import NewCoupon from "./pages/newCoupon/newCoupon";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import SignIn from './pages/signin/SignIn.page';
@@ -41,6 +44,9 @@ function App() {
               <Route path="/brands" component={BrandList} />
               <Route path="/brand/:brandId" component={Brand} />
               <Route path="/newbrand" component={NewBrand} />
+              <Route path="/coupons" component={CouponList} />
+              <Route path="/newcoupon" component={NewCoupon} />
+              <Route path="/coupon/:couponId" component={Coupon} />
               <Redirect to="/" />
             </Switch>
           </Layout>

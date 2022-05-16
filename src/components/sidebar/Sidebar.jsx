@@ -59,6 +59,12 @@ export default function Sidebar() {
                 Brands
               </li>
             </Link>
+            <Link to="/coupons" className="link">
+              <li className="sidebarListItem">
+                <Storefront className="sidebarIcon" />
+                Coupon
+              </li>
+            </Link>
             <li className="sidebarListItem">
               <AttachMoney className="sidebarIcon" />
               Transactions

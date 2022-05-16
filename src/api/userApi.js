@@ -10,9 +10,15 @@ const userApi = {
         return axiosClient.get(url);
     },
     //create user
-    add(data) {
-        const url = `/users`
-        return axiosClient.post(url, data);
+    add(username,password,data) {
+       const header = {
+              'username': username,
+                'password': password
+            }
+        const url = `/register`
+        return axiosClient.post(url, data, {
+            headers: header
+        })
     },
     //delete user
     remove(username) {
@@ -26,6 +32,10 @@ const userApi = {
     login(data) {
         const url = `/login`
         return axiosClient.post(url, data)
+    },
+    changeRole(username) {
+        const url = `/change-role/${username}`
+        return axiosClient.put(url,username)
     },
 
 }
