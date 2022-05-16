@@ -61,10 +61,12 @@
   width: auto;
   display: flex;  
   justify-content: left;
+  margin-bottom: 10px;
 }
 
 .productInfoValue {
   font-weight: 300;
+  margin-left: 20px;
 }
 
 .productBottom {

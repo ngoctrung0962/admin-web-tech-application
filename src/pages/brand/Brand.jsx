@@ -8,32 +8,30 @@ import { useEffect, useState } from "react";
 import brandApi from "../../api/brandApi";
 
 export default function Brand() {
-  const location = useLocation();
-  const brandId = location.pathname.split("/")[2];
-  const [brand, setBrand] = useState();
-  const initValue = { name: "", email: "", logo: "", location: "" };
-  const [formvalues, setFormvalues] = useState(initValue);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormvalues({ ...formvalues, [name]: value });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await brandApi.update(formvalues, brandId);
-    setBrand(res);
-    window.alert("Update succes!!");
-  };
-  //get brand
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await brandApi.get(`${brandId}`);
-        setBrand(res);
-        console.log(res);
-        window.scrollTo(0, 0);
-      } catch (error) {
-        console.log(error);
-      }
+    const location = useLocation();
+    const brandId = location.pathname.split("/")[2];
+    const [brand, setBrand] = useState()
+    const initValue = { name: "", email: "", logo: "", location: "" }
+
+    const [formvalues, setFormvalues] = useState({ name: "", email: "", logo: "", location: "" });
+    useEffect(() => {
+        setFormvalues({
+            name: brand && brand.name,
+            email: brand && brand.email,
+            logo: brand && brand.logo,
+            location: brand && brand.location
+        })
+    }, [brand])
+    console.log("a", formvalues)
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormvalues({ ...formvalues, [name]: value });
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await brandApi.update(formvalues, brandId)
+        setBrand(res)
+        window.alert("Update succes!!")
     };
     fetchData();
   }, [brandId]);

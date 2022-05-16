@@ -5,7 +5,7 @@ import Storagekey from "../constants/storagekey";
 export const login = async (dispatch, data, username) => {
     dispatch(loginStart());
     console.log("data", data)
-    if (data.AccessToken && data.RefreshToken) {
+    if (data.AccessToken && data.RefreshToken && data.role === "ROLE_ADMIN") {
         await saveToken(data.AccessToken, data.RefreshToken)
         const userdata = await userApi.getUserByUsername(username)
         if (userdata.role === "ROLE_ADMIN") {
@@ -17,6 +17,12 @@ export const login = async (dispatch, data, username) => {
             dispatch(loginFailure());
             localStorage.clear()
         }
+        dispatch(loginSuccess(userdata))
+        localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
+        window.alert("success")
+    }
+    else {
+        dispatch(loginFailure());
     }
 
 };

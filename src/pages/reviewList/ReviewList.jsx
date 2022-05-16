@@ -1,61 +1,70 @@
-import "./brandList.css";
+import "./reviewList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import reviewApi from "../../api/reviewApi";
 
-import brandApi from "../../api/brandApi";
-
-export default function BrandList() {
+export default function ReviewList() {
   const [data, setData] = useState([]);
-  const handleDelete = async (id) => {
+  const handleDelete = async (username, id) => {
     try {
-      await brandApi.remove(id)
-      window.alert("Delete brand succes")
-      const dataFilter = data.filter(item => item.brandId !== id)
+      await reviewApi.remove(username, id)
+      window.alert("Delete review succes")
+      const dataFilter = data.filter(item => item.username !== username && item.reviewId !== id)
       setData(dataFilter)
     } catch (error) {
-      window.alert("Delete brand fail!")
+      window.alert("Delete review fail!")
     }
   };
   const columns = [
-    { field: "brandId", headerName: "ID", width: 90 },
+    { field: "reviewId", headerName: "ID", width: 90 },
     {
-      field: "name", headerName: "Name", width: 200,
+      field: "content", headerName: "Content", width: 250,
       renderCell: (params) => {
         return (
           <div className="productListItem" >
-            {params.row.name ? params.row.name : "null"}
+            {params.row.content ? params.row.content : "null"}
           </div >
         );
       },
     },
     {
-      field: "email", headerName: "Email", width: 250,
+      field: "rate", headerName: "Rate", width: 130,
       renderCell: (params) => {
         return (
           <div className="productListItem" >
-            {params.row.email ? params.row.email : "null"}
+            {params.row.rate ? params.row.rate : "null"}
           </div >
         );
       },
     },
     {
-      field: "logo", headerName: "Logo", width: 200,
+      field: "time", headerName: "Time", width: 250,
       renderCell: (params) => {
         return (
           <div className="productListItem" >
-            {params.row.logo ? params.row.logo : "null"}
+            {params.row.time ? params.row.time : "null"}
           </div >
         );
       },
     },
     {
-      field: "location", headerName: "Location", width: 200,
+      field: "username", headerName: "Username", width: 150,
       renderCell: (params) => {
         return (
           <div className="productListItem" >
-            {params.row.location ? params.row.location : "null"}
+            {params.row.username ? params.row.username : "null"}
+          </div >
+        );
+      },
+    },
+    {
+      field: "productId", headerName: "ProductId", width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem" >
+            {params.row.productId ? params.row.productId : "null"}
           </div >
         );
       },
@@ -67,12 +76,9 @@ export default function BrandList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/brand/" + params.row.brandId}>
-              <button className="productListEdit">Edit</button>
-            </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.brandId)}
+              onClick={() => handleDelete(params.row.username, params.row.reviewId)}
             />
           </>
         );
@@ -82,7 +88,7 @@ export default function BrandList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await brandApi.getAll();
+        const res = await reviewApi.getAll();
         setData(res)
       } catch (error) {
         console.log(error)
@@ -92,26 +98,19 @@ export default function BrandList() {
   }, [])
   console.log(data)
 
-  const datafake = [{ brandId: 'B01', name: 'Samsung', email: 'samsung@email.com', logo: 'link', location: 'Korea' },
-  { brandId: 'B02', name: 'Apple', email: 'apple@gmail.com', logo: 'link ne', location: 'USA' }]
-
 
   return (
     <div className="productList">
-      <Link to="/newbrand">
-        <button className="productAddButton ">Create</button>
-      </Link>
       {data?.length && (<DataGrid
         rowHeight={65}
         headerHeight={75}
-        getRowId={(row) => row.brandId}
+        getRowId={(row) => row.reviewId}
         rows={data}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
         checkboxSelection
       />)}
-
     </div>
   );
 }

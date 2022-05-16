@@ -1,25 +1,26 @@
-import "./brandList.css";
+import "./deliveryList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import brandApi from "../../api/brandApi";
+import deliveryApi from "../../api/deliveryApi";
 
-export default function BrandList() {
+export default function DeliveryList() {
   const [data, setData] = useState([]);
   const handleDelete = async (id) => {
     try {
-      await brandApi.remove(id)
-      window.alert("Delete brand succes")
-      const dataFilter = data.filter(item => item.brandId !== id)
+      await deliveryApi.remove(id)
+      window.alert("Delete delivery succes")
+      const dataFilter = data.filter(item => item.deliveryId !== id)
       setData(dataFilter)
     } catch (error) {
-      window.alert("Delete brand fail!")
+      window.alert("Delete delivery fail!")
     }
   };
   const columns = [
-    { field: "brandId", headerName: "ID", width: 90 },
+    { field: "deliveryId", headerName: "ID", width: 90 },
     {
       field: "name", headerName: "Name", width: 200,
       renderCell: (params) => {
@@ -41,11 +42,11 @@ export default function BrandList() {
       },
     },
     {
-      field: "logo", headerName: "Logo", width: 200,
+      field: "phoneNumber", headerName: "Phone", width: 200,
       renderCell: (params) => {
         return (
           <div className="productListItem" >
-            {params.row.logo ? params.row.logo : "null"}
+            {params.row.phoneNumber ? params.row.phoneNumber : "null"}
           </div >
         );
       },
@@ -67,12 +68,12 @@ export default function BrandList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/brand/" + params.row.brandId}>
+            <Link to={"/delivery/" + params.row.deliveryId}>
               <button className="productListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.brandId)}
+              onClick={() => handleDelete(params.row.deliveryId)}
             />
           </>
         );
@@ -82,7 +83,7 @@ export default function BrandList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await brandApi.getAll();
+        const res = await deliveryApi.getAll();
         setData(res)
       } catch (error) {
         console.log(error)
@@ -92,19 +93,16 @@ export default function BrandList() {
   }, [])
   console.log(data)
 
-  const datafake = [{ brandId: 'B01', name: 'Samsung', email: 'samsung@email.com', logo: 'link', location: 'Korea' },
-  { brandId: 'B02', name: 'Apple', email: 'apple@gmail.com', logo: 'link ne', location: 'USA' }]
-
 
   return (
     <div className="productList">
-      <Link to="/newbrand">
+      <Link to="/newDelivery">
         <button className="productAddButton ">Create</button>
       </Link>
       {data?.length && (<DataGrid
         rowHeight={65}
         headerHeight={75}
-        getRowId={(row) => row.brandId}
+        getRowId={(row) => row.deliveryId}
         rows={data}
         disableSelectionOnClick
         columns={columns}
