@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import userApi from "../api/userApi";
 import Storagekey from "../constants/storagekey";
+import { showNotification } from "../utils/showNotification";
 
 export const login = async (dispatch, data, username) => {
     dispatch(loginStart());
@@ -10,7 +11,7 @@ export const login = async (dispatch, data, username) => {
         const userdata = await userApi.getUserByUsername(username)
         dispatch(loginSuccess(userdata))
         localStorage.setItem(Storagekey.USER, JSON.stringify(userdata))
-        window.alert("success")
+        showNotification('success', 'Great', 'Sign in success', 'OK')
     }
     else {
         dispatch(loginFailure());
@@ -68,7 +69,7 @@ const userSlice = createSlice({
         Logout(state) {
             localStorage.clear();
             state.currentUser = null;
-            window.alert("Good bye!")
+            showNotification('success', 'GoodBye!', '', 'OK')
         }
     },
 });

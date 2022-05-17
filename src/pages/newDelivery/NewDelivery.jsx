@@ -4,6 +4,7 @@ import brandApi from "../../api/brandApi";
 import "./newDelivery.css";
 import { useHistory } from "react-router-dom";
 import deliveryApi from "../../api/deliveryApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function NewDelivery() {
   let history = useHistory();
@@ -11,15 +12,20 @@ export default function NewDelivery() {
   const [formvalues, setFormvalues] = useState(initValue);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log({name, value});
+    console.log({ name, value });
     setFormvalues({ ...formvalues, [name]: value });
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await deliveryApi.add(formvalues)
-    console.log(formvalues)
-    window.alert("Add succes!!")
-    history.push("/deliveries")
+    try {
+      const res = await deliveryApi.add(formvalues)
+      console.log(formvalues)
+      showNotification('success', 'Great', 'Add delivery successful', 'OK')
+      history.push("/deliveries")
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Add delivery fail', 'OK')
+    }
+
   };
   return (
     <div className="newProduct">

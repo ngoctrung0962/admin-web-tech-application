@@ -5,6 +5,7 @@ import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import productApi from "../../api/productApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function ProductList() {
   const [data, setData] = useState([]);
@@ -12,11 +13,11 @@ export default function ProductList() {
   const handleDelete = async (id) => {
     try {
       await productApi.remove(id)
-      window.alert("Delete product succes")
+      showNotification('success', 'Great', 'Delete product successful', 'OK')
       const dataFilter = data.filter(item => item.productId !== id)
       setData(dataFilter)
     } catch (error) {
-      window.alert("Delete product fail!")
+      showNotification('error', 'Oh no', 'Delete product fail', 'OK')
     }
   };
   useEffect(() => {

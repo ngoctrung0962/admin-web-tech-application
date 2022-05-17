@@ -6,6 +6,7 @@ import { Publish } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import brandApi from "../../api/brandApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function Brand() {
   const location = useLocation();
@@ -34,9 +35,14 @@ export default function Brand() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await brandApi.update(formvalues, brandId);
-    setBrand(res);
-    window.alert("Update succes!!");
+    try {
+      const res = await brandApi.update(formvalues, brandId);
+      setBrand(res);
+      showNotification('success', 'Great', 'Update successful', 'OK')
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Update fail', 'OK')
+    }
+
   };
   //get brand
   useEffect(() => {

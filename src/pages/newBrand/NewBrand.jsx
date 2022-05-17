@@ -3,6 +3,7 @@ import { useState } from "react";
 import brandApi from "../../api/brandApi";
 import "./newBrand.css";
 import { useHistory } from "react-router-dom";
+import { showNotification } from "../../utils/showNotification";
 
 export default function NewBrand() {
   let history = useHistory();
@@ -14,11 +15,32 @@ export default function NewBrand() {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await brandApi.add(formvalues)
-    console.log(formvalues)
-    window.alert("Add succes!!")
-    history.push("/brands")
+    try {
+      const res = await brandApi.add(formvalues)
+      console.log(formvalues)
+      showNotification('success', 'Great', 'Add brand successful', 'OK')
+      history.push("/brands")
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Add brand fail', 'OK')
+    }
+
   };
+  const [currenfileimage, setCurrentfileimage] = useState(null)
+  const handlefilechange = (e) => {
+    setCurrentfileimage(e.target.files[0])
+  }
+  const handleUploadfile = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await brandApi.uploadfileimage(currenfileimage)
+      console.log(res)
+      setFormvalues({ ...formvalues, logo: res })
+      showNotification('success', 'Great', 'Add image successful', 'OK')
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Add image fail', 'OK')
+    }
+
+  }
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Brand</h1>
@@ -50,13 +72,13 @@ export default function NewBrand() {
         <div className="addProductItem">
           <label>Logo</label>
           <input
-            type="text"
+            type="file"
             name="logo"
-            placeholder="Link"
-            value={formvalues.logo}
-            onChange={handleChange}
-            required
+            // value={formvalues.image}
+            onChange={handlefilechange}
+
           />
+          <button onClick={handleUploadfile}>Upload</button>
         </div>
         <div className="addProductItem">
           <label>Location</label>

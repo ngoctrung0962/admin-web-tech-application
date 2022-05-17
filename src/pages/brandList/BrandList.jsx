@@ -5,17 +5,19 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import brandApi from "../../api/brandApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function BrandList() {
   const [data, setData] = useState([]);
   const handleDelete = async (id) => {
     try {
       await brandApi.remove(id)
-      window.alert("Delete brand succes")
+      showNotification('success', 'Great', 'Delete brand successful', 'OK')
       const dataFilter = data.filter(item => item.brandId !== id)
       setData(dataFilter)
     } catch (error) {
       window.alert("Delete brand fail!")
+      showNotification('error', 'Oh no', 'Delete brand fail', 'OK')
     }
   };
   const columns = [

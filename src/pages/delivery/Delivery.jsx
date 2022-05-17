@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import brandApi from "../../api/brandApi";
 import deliveryApi from "../../api/deliveryApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function Delivery() {
     const location = useLocation();
@@ -28,9 +29,14 @@ export default function Delivery() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await deliveryApi.update(formvalues, deliveryId)
-        setDelivery(res)
-        window.alert("Update succes!!")
+        try {
+            const res = await deliveryApi.update(formvalues, deliveryId)
+            setDelivery(res)
+            showNotification('success', 'Great', 'Update successful', 'OK')
+        } catch (error) {
+            showNotification('error', 'Oh no', 'Update fail', 'OK')
+        }
+
     };
     //get brand
     useEffect(() => {

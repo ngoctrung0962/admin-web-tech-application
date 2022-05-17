@@ -6,17 +6,18 @@ import { useEffect, useState } from "react";
 
 import brandApi from "../../api/brandApi";
 import deliveryApi from "../../api/deliveryApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function DeliveryList() {
   const [data, setData] = useState([]);
   const handleDelete = async (id) => {
     try {
       await deliveryApi.remove(id)
-      window.alert("Delete delivery succes")
+      showNotification('success', 'Great', 'Delete delivery successful', 'OK')
       const dataFilter = data.filter(item => item.deliveryId !== id)
       setData(dataFilter)
     } catch (error) {
-      window.alert("Delete delivery fail!")
+      showNotification('error', 'Oh no', 'Delete delivery fail', 'OK')
     }
   };
   const columns = [

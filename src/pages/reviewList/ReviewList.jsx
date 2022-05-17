@@ -4,17 +4,18 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import reviewApi from "../../api/reviewApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function ReviewList() {
   const [data, setData] = useState([]);
   const handleDelete = async (username, id) => {
     try {
       await reviewApi.remove(username, id)
-      window.alert("Delete review succes")
-      const dataFilter = data.filter(item => item.username !== username && item.reviewId !== id)
+      showNotification('success', 'Great', 'Delete review successful', 'OK')
+      const dataFilter = data.filter(item => item.reviewId !== id)
       setData(dataFilter)
     } catch (error) {
-      window.alert("Delete review fail!")
+      showNotification('success', 'Oh no', 'Delete review fail', 'OK')
     }
   };
   const columns = [

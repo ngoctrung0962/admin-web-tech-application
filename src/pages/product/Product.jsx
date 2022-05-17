@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import productApi from "../../api/productApi";
 import brandApi from "../../api/brandApi";
 import categoryApi from "../../api/categoryApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function Product() {
 
@@ -54,9 +55,14 @@ export default function Product() {
             description: formvalues.description,
             price: formvalues.price,
         }
-        const res = await productApi.update(formdata, productId)
-        setProduct(res)
-        window.alert("Update succes!!")
+        try {
+            const res = await productApi.update(formdata, productId)
+            setProduct(res)
+            showNotification('success', 'Great', 'Update successful', 'OK')
+        } catch (error) {
+            showNotification('error', 'Oh no', 'Update fail', 'OK')
+        }
+
     };
 
     const [formvalues, setFormvalues] = useState({

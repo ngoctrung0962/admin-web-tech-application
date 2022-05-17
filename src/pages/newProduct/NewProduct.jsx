@@ -5,6 +5,7 @@ import categoryApi from "../../api/categoryApi";
 import { useHistory } from "react-router-dom";
 import productApi from "../../api/productApi";
 import axios from "axios";
+import { showNotification } from "../../utils/showNotification";
 
 export default function NewProduct() {
   let history = useHistory();
@@ -42,10 +43,14 @@ export default function NewProduct() {
       description: formvalues.description,
       price: formvalues.price,
     }
-    const res = await productApi.add(formdata)
-    window.alert("Add succes!!")
-    history.push("/products")
-    console.log(formdata)
+    try {
+      await productApi.add(formdata)
+      showNotification('success', 'Great', 'Add product successful', 'OK')
+      history.push("/products")
+    } catch (error) {
+      console.log(error)
+      showNotification('error', 'Oh No', 'Add product fail', 'OK')
+    }
   };
   const formatDate = (date) => {
     var d = new Date(date),
@@ -100,9 +105,15 @@ export default function NewProduct() {
   }
   const handleUploadfile = async (e) => {
     e.preventDefault();
-    const res = await productApi.uploadfileimage(currenfileimage)
-    console.log(res)
-    setFormvalues({ ...formvalues, image: res })
+    try {
+      const res = await productApi.uploadfileimage(currenfileimage)
+      console.log(res)
+      setFormvalues({ ...formvalues, image: res })
+      showNotification('success', 'Great', 'Add image successful', 'OK')
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Add image fail', 'OK')
+    }
+
   }
   console.log(formvalues)
   return (
