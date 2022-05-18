@@ -76,12 +76,13 @@
 
 .productForm {
   display: flex;
-  justify-content: space-between;
 }
 
 .productFormLeft {
   display: flex;
   flex-direction: column;
+  width: 20%;
+  margin-right: 50px;
 }
 
 .productFormLeft > label {

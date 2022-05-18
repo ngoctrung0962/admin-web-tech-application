@@ -19,14 +19,32 @@ import { Logout } from "../../redux/userRedux";
 
 export default function Profile() {
   const userCurrent = useSelector((state) => state.user.currentUser);
+
   const [user, setUser] = useState(userCurrent);
   const [formvalues, setFormvalues] = useState(userCurrent);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await userApi.getUserByUsername(userCurrent.username);
+        // update role type 1 is admin, 0 is user
+        setUser(res);
+        setFormvalues(res);
+        console.log(res);
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [userCurrent]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await userApi.update(userCurrent.username, formvalues);
     setUser(res);
     setFormvalues(res);
+    //update user.currentUser
+
     showNotification("success", "Great", "Update profile success!", "OK");
   };
   const handleChange = (e) => {
