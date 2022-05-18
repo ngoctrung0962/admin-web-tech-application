@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
 import { useSelector } from "react-redux";
+import { showNotification } from "../../utils/showNotification";
 
 export default function UserList() {
   const user = useSelector((state) => state.user.currentUser);
@@ -33,11 +34,11 @@ export default function UserList() {
   const handleDelete = async (id) => {
     try {
       await userApi.remove(id);
-      window.alert("Delete user succes");
+      showNotification('success', 'Delete user succses', '', 'OK');
       setData(data.filter((item) => item.username !== id));
       console.log(data);
     } catch (error) {
-      window.alert("Delete user fail!");
+      showNotification('error', 'Delete user fail', '', 'OK');
     }
   };
   const columns = [

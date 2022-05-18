@@ -4,6 +4,7 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import couponApi from "../../api/couponApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function CouponList() {
   const [data, setData] = useState([]);
@@ -34,11 +35,11 @@ export default function CouponList() {
   const handleDelete = async (id) => {
     try {
       await couponApi.remove(id);
-      window.alert("Delete coupon succes");
+      showNotification('success', 'Delete coupon succes', '', 'OK');
       setData(data.filter((item) => item.couponId !== id));
       console.log(data);
     } catch (error) {
-      window.alert("Delete coupon fail!");
+      showNotification('error', 'Delete coupon fail', '', 'OK');
     }
   };
   const columns = [

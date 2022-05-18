@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userApi from "../../api/userApi";
 import { formatDateToLocalInputDate } from "@material-ui/data-grid";
+import { showNotification } from "../../utils/showNotification";
 
 export default function User() {
   const location = useLocation();
@@ -68,7 +69,7 @@ export default function User() {
     }
     setUser(res);
     setFormvalues(res);
-    window.alert("Update succes!!");
+    showNotification('success', 'Update success', '', 'OK');
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
