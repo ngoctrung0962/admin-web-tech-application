@@ -3,6 +3,7 @@ import "./newCoupon.css";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { showNotification } from "../../utils/showNotification";
 
 export default function NewCoupon() {
   let history = useHistory();
@@ -20,10 +21,15 @@ export default function NewCoupon() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await couponApi.add(formvalues);
-    console.log(formvalues);
-    window.alert("Add succes!!");
-    history.push("/coupons");
+    try {
+      const res = await couponApi.add(formvalues);
+      console.log(formvalues);
+      showNotification('success', 'Add succes!!', '', 'OK');
+      history.push("/coupons");
+    } catch (error) {
+      showNotification('error', 'Add fail!!', '', 'OK');
+    }
+
   };
   return (
     <div className="newProduct">

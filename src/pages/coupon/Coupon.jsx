@@ -13,6 +13,7 @@ import "./Coupon.css";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import couponApi from "../../api/couponApi";
+import { showNotification } from "../../utils/showNotification";
 
 export default function User() {
   const location = useLocation();
@@ -56,9 +57,14 @@ export default function User() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await couponApi.update(couponId, formvalues);
-    setCoupon(res);
-    window.alert("Update succes!!");
+    try {
+      const res = await couponApi.update(couponId, formvalues);
+      setCoupon(res);
+      showNotification('success', 'Update succes!!', '', 'OK');
+    } catch (error) {
+      showNotification('error', 'Update fail!!', '', 'OK');
+    }
+
   };
   const handleChange = (e) => {
     const { name, value } = e.target;

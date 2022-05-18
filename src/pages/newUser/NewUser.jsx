@@ -4,6 +4,7 @@ import userApi from "../../api/userApi";
 import { formatDateToLocalInputDate } from "@material-ui/data-grid";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { showNotification } from "../../utils/showNotification";
 
 export default function NewUser() {
   let history = useHistory();
@@ -22,14 +23,20 @@ export default function NewUser() {
   const [formvalues, setFormvalues] = useState(initValue);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formvalues);
     const res = await userApi.add(
       formvalues.username,
       formvalues.password,
       formvalues
     );
-    window.alert("Add succes!!");
-    history.push("/users");
+
+    if (!res.status || res.status === 200) {
+
+      showNotification('success', 'Đăng kí thành công !', 'Vui lòng đăng nhập lại', 'OK')
+      history.push("/users");
+    }
+    else {
+      showNotification('error', 'Đăng kí thất bại !', `Lỗi: ${res.message}`, 'OK')
+    }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
