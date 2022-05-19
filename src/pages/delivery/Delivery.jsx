@@ -133,13 +133,7 @@ export default function Delivery() {
                         />
                     </div>
                     <div className="productFormRight">
-                        <div className="productUpload">
-                            <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productUploadImg" />
-                            <label for="file">
-                                <Publish />
-                            </label>
-                            <input type="file" id="file" style={{ display: "none" }} />
-                        </div>
+
                         <button type="submit" className="productButton">Update</button>
                     </div>
                 </form>

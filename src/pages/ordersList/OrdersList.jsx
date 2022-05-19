@@ -162,9 +162,6 @@ export default function OrdersList() {
 
   return (
     <div className="userList">
-      <Link to="">
-        <button className="userAddButton">Create</button>
-      </Link>
       {data?.length && (
         <DataGrid
           rows={data}
