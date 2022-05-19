@@ -596,7 +596,12 @@ export default function Product() {
               <label htmlFor="file">
                 <Publish />
               </label>
-              <input type="file" id="file" multiple accept="image/*" style={{ display: "none" }} />
+              <input
+                type="file"
+                id="file"
+                multiple
+                accept="image/*"
+                style={{ display: "none" }} />
             </div>
             <button type="submit" className="productButton">
               Update

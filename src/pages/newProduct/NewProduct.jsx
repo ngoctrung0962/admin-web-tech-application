@@ -213,7 +213,6 @@ export default function NewProduct() {
               name="image"
               multiple
               accept="image/*"
-              // value={formvalues.image}
               onChange={handlefilechange}
             />
             <button onClick={handleUploadfile}>Upload</button>

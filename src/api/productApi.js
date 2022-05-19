@@ -29,7 +29,7 @@ const productApi = {
         return axiosClient.get(url);
     },
     uploadfileimage(data) {
-        const url = `/uploadImage`
+        const url = '/uploadImage'
         return axiosClient.post(url, data);
     }
 }
