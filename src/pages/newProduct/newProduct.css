@@ -1,54 +1,17 @@
-.newProduct {
-  flex: 4;
-}
-.buttonAddProduct{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-.addProductForm {
+
+.addProductFormUpdate {
   margin-top: 20px;
-  display: flex!important;; 
+  display: flex; 
   flex-wrap: wrap;
 }
 .col-flex {
   display: flex;
   flex-direction:column;
-  margin-right: 50px;
-  /* width: 30%;
-  flex-wrap: wrap; */
+  margin:20px;
 }
-.addProductItem {
-  width: 250px;
+.buttonAddProduct {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.addProductItem > label {
-  color: gray;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.addProductItem > input {
-  padding: 10px;
-}
-
-.addProductItem > select {
-  padding: 10px;
-}
-
-.addProductButton {
-  margin-bottom: 15px;
-  /* margin-top: 10px;
-  margin-bottom: 100px;
-  padding: 7px 10px;
-  border: none;
-  border-radius: 10px;
-  background-color: darkblue;
-  color: white;
-  font-weight: 600;
-  cursor: pointer; */
+  justify-content: flex-end;
+  margin-bottom: 30px;
 }

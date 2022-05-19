@@ -138,14 +138,19 @@ export default function NewProduct() {
       setFormvalues({ ...formvalues, image: res });
       showNotification("success", "Great", "Add image successful", "OK");
     } else {
-      showNotification("error", "Oh No", "Add image fail! Error: " + res.message, "OK");
+      showNotification(
+        "error",
+        "Oh No",
+        "Add image fail! Error: " + res.message,
+        "OK"
+      );
     }
   };
   console.log(formvalues);
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>
-      <form onSubmit={handleSubmit} className="addProductForm">
+      <form onSubmit={handleSubmit} className="addProductFormUpdate">
         <div className="col-flex">
           <div className="addProductItem">
             <label>Name</label>
