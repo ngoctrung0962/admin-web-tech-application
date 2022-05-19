@@ -37,8 +37,14 @@ export default function Brand() {
     e.preventDefault();
     try {
       const res = await brandApi.update(formvalues, brandId);
-      setBrand(res);
-      showNotification('success', 'Great', 'Update successful', 'OK')
+      if (!res.status || res.status === 200) {
+        setBrand(res);
+        showNotification('success', 'Great', 'Update successful', 'OK')
+      }
+      else {
+        showNotification('error', 'Oh no', 'Update fail', 'OK')
+      }
+
     } catch (error) {
       showNotification('error', 'Oh no', 'Update fail', 'OK')
     }
@@ -58,6 +64,22 @@ export default function Brand() {
     };
     fetchData();
   }, [brandId]);
+  const [currenfileimage, setCurrentfileimage] = useState(null)
+  const handlefilechange = (e) => {
+    setCurrentfileimage(e.target.files[0])
+  }
+  const handleUploadfile = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await brandApi.uploadfileimage(currenfileimage)
+      console.log(res)
+      setFormvalues({ ...formvalues, logo: res })
+      showNotification('success', 'Great', 'Add image successful', 'OK')
+    } catch (error) {
+      showNotification('error', 'Oh no', 'Add image fail', 'OK')
+    }
+
+  }
 
   return (
     <div className="product">
@@ -138,6 +160,14 @@ export default function Brand() {
               onChange={handleChange}
               required
             />
+            <input
+              type="file"
+              name="logo"
+              // value={formvalues.image}
+              onChange={handlefilechange}
+
+            />
+            {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
             <label>Brand Location</label>
             <input
               type="text"

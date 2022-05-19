@@ -28,6 +28,27 @@ export default function Product() {
   const [listbrands, setListbrands] = useState([]);
   const [listcategorys, setListcategorys] = useState([]);
 
+  const [currenfileimage, setCurrentfileimage] = useState(null);
+  const handlefilechange = (e) => {
+    setCurrentfileimage(e.target.files);
+  };
+  const handleUploadfile = async (e) => {
+    e.preventDefault();
+    const formdata = new FormData();
+    for (let i = 0; i < currenfileimage.length; i++) {
+      formdata.append("image", currenfileimage[i]);
+      console.log(currenfileimage[i]);
+    }
+    console.log(formdata);
+    const res = await productApi.uploadfileimage(formdata);
+    if (!res.status || res.status === 200) {
+      setFormvalues({ ...formvalues, image: res });
+      showNotification("success", "Great", "Add image successful", "OK");
+    } else {
+      showNotification("error", "Oh No", "Add image fail! Error: " + res.message, "OK");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formdata = {
@@ -56,8 +77,13 @@ export default function Product() {
     };
     try {
       const res = await productApi.update(formdata, productId);
-      setProduct(res);
-      showNotification("success", "Great", "Update successful", "OK");
+      if (!res.status || res.status === 200) {
+        setProduct(res);
+        showNotification("success", "Great", "Update successful", "OK");
+      }
+      else {
+        showNotification("error", "Oh no", "Update fail", "OK");
+      }
     } catch (error) {
       showNotification("error", "Oh no", "Update fail", "OK");
     }
@@ -134,6 +160,7 @@ export default function Product() {
     fetchData();
   }, []);
   console.log("lisst", listbrands);
+  console.log("pro", product);
 
   //get all category
   useEffect(() => {
@@ -306,11 +333,7 @@ export default function Product() {
               placeholder={product ? product.name : ""}
               name="name"
               value={
-                formvalues.name === ""
-                  ? product
-                    ? product.name
-                    : ""
-                  : formvalues.name
+                formvalues.name
               }
               onChange={handleChange}
               required
@@ -320,11 +343,7 @@ export default function Product() {
               name="categoryId"
               id="categoryId"
               value={
-                formvalues.categoryId === ""
-                  ? product
-                    ? product.category.categoryId
-                    : "null"
-                  : formvalues.categoryId
+                formvalues.categoryId
               }
               onChange={handleChange}
               option={product ? product.category.categoryId : "null"}
@@ -342,11 +361,7 @@ export default function Product() {
               name="brandId"
               id="brandId"
               value={
-                formvalues.brandId === ""
-                  ? product
-                    ? product.brand.brandId
-                    : "null"
-                  : formvalues.brandId
+                formvalues.brandId
               }
               onChange={handleChange}
               option={product ? product.brand.brandId : "null"}
@@ -362,32 +377,32 @@ export default function Product() {
             <label>Product Image</label>
             <input
               type="text"
+              disabled
               placeholder={product ? product.image : ""}
               name="image"
               value={
-                formvalues.image === ""
-                  ? product
-                    ? product.image
-                    : ""
-                  : formvalues.image
+                formvalues.image
               }
               onChange={handleChange}
-              required
             />
+
+            <input
+              type="file"
+              name="image"
+              multiple
+              accept="image/*"
+              onChange={handlefilechange}
+            />
+            {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
             <label>Product Quantity</label>
             <input
               type="text"
               placeholder={product ? product.quantity : ""}
               name="quantity"
               value={
-                formvalues.quantity === ""
-                  ? product
-                    ? product.quantity
-                    : ""
-                  : formvalues.quantity
+                formvalues.quantity
               }
               onChange={handleChange}
-              required
             />
             <label>Product Sale Date</label>
             <input
@@ -395,11 +410,7 @@ export default function Product() {
               // placeholder={product ? product.saleDate : ""}
               name="saleDate"
               value={
-                formvalues.saleDate === ""
-                  ? product
-                    ? formatDate(product.saleDate)
-                    : ""
-                  : formatDate(formvalues.saleDate)
+                formatDate(formvalues.saleDate)
               }
               onChange={handleChange}
             />
@@ -411,14 +422,10 @@ export default function Product() {
               placeholder={product ? product.ram : ""}
               name="ram"
               value={
-                formvalues.ram === ""
-                  ? product
-                    ? product.ram
-                    : ""
-                  : formvalues.ram
+                formvalues.ram
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product ROM</label>
             <input
@@ -426,14 +433,10 @@ export default function Product() {
               placeholder={product ? product.rom : ""}
               name="rom"
               value={
-                formvalues.rom === ""
-                  ? product
-                    ? product.rom
-                    : ""
-                  : formvalues.rom
+                formvalues.rom
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product Front Camera</label>
             <input
@@ -441,14 +444,10 @@ export default function Product() {
               placeholder={product ? product.frontCam : ""}
               name="frontCam"
               value={
-                formvalues.frontCam === ""
-                  ? product
-                    ? product.frontCam
-                    : ""
-                  : formvalues.frontCam
+                formvalues.frontCam
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product Back Camera</label>
             <input
@@ -456,14 +455,10 @@ export default function Product() {
               placeholder={product ? product.backCam : ""}
               name="backCam"
               value={
-                formvalues.backCam === ""
-                  ? product
-                    ? product.backCam
-                    : ""
-                  : formvalues.backCam
+                formvalues.backCam
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product OS</label>
             <input
@@ -471,14 +466,10 @@ export default function Product() {
               placeholder={product ? product.os : ""}
               name="os"
               value={
-                formvalues.os === ""
-                  ? product
-                    ? product.os
-                    : ""
-                  : formvalues.os
+                formvalues.os
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product Screen</label>
             <input
@@ -486,14 +477,10 @@ export default function Product() {
               placeholder={product ? product.screen : ""}
               name="screen"
               value={
-                formvalues.screen === ""
-                  ? product
-                    ? product.screen
-                    : ""
-                  : formvalues.screen
+                formvalues.screen
               }
               onChange={handleChange}
-              required
+
             />
           </div>
           <div className="productFormLeft">
@@ -503,14 +490,10 @@ export default function Product() {
               placeholder={product ? product.cpu : ""}
               name="cpu"
               value={
-                formvalues.cpu === ""
-                  ? product
-                    ? product.cpu
-                    : ""
-                  : formvalues.cpu
+                formvalues.cpu
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product Battery</label>
             <input
@@ -518,14 +501,10 @@ export default function Product() {
               placeholder={product ? product.battery : ""}
               name="battery"
               value={
-                formvalues.battery === ""
-                  ? product
-                    ? product.battery
-                    : ""
-                  : formvalues.battery
+                formvalues.battery
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product Weight</label>
             <input
@@ -533,14 +512,10 @@ export default function Product() {
               placeholder={product ? product.weight : ""}
               name="weight"
               value={
-                formvalues.weight === ""
-                  ? product
-                    ? product.weight
-                    : ""
-                  : formvalues.weight
+                formvalues.weight
               }
               onChange={handleChange}
-              required
+
             />
             <label>Product VGA</label>
             <input
@@ -548,11 +523,7 @@ export default function Product() {
               placeholder={product ? product.vga : ""}
               name="vga"
               value={
-                formvalues.vga === ""
-                  ? product
-                    ? product.vga
-                    : ""
-                  : formvalues.vga
+                formvalues.vga
               }
               onChange={handleChange}
             />
@@ -562,11 +533,7 @@ export default function Product() {
               placeholder={product ? product.description : ""}
               name="description"
               value={
-                formvalues.description === ""
-                  ? product
-                    ? product.description
-                    : ""
-                  : formvalues.description
+                formvalues.description
               }
               onChange={handleChange}
             />
@@ -576,11 +543,7 @@ export default function Product() {
               placeholder={product ? product.price : ""}
               name="price"
               value={
-                formvalues.price === ""
-                  ? product
-                    ? product.price
-                    : ""
-                  : formvalues.price
+                formvalues.price
               }
               onChange={handleChange}
               required
@@ -588,20 +551,6 @@ export default function Product() {
           </div>
           <div className="productFormRight">
             <div className="productUpload">
-              <img
-                src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt=""
-                className="productUploadImg"
-              />
-              <label htmlFor="file">
-                <Publish />
-              </label>
-              <input
-                type="file"
-                id="file"
-                multiple
-                accept="image/*"
-                style={{ display: "none" }} />
             </div>
             <button type="submit" className="productButton">
               Update

@@ -78,7 +78,8 @@ export default function NewBrand() {
             onChange={handlefilechange}
 
           />
-          <button onClick={handleUploadfile}>Upload</button>
+          {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
+
         </div>
         <div className="addProductItem">
           <label>Location</label>

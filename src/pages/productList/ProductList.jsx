@@ -8,16 +8,32 @@ import productApi from "../../api/productApi";
 import { showNotification } from "../../utils/showNotification";
 
 export default function ProductList() {
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month =
+        "" + (d.getMonth() + 1) > 9
+          ? d.getMonth() + 1
+          : "0" + (d.getMonth() + 1),
+      day = "" + d.getDate() > 9 ? d.getDate() : "0" + d.getDate(),
+      year = d.getFullYear();
+    return [year, month, day].join("-");
+  };
   const [data, setData] = useState([]);
 
   const handleDelete = async (id) => {
     try {
-      await productApi.remove(id)
-      showNotification('success', 'Great', 'Delete product successful', 'OK')
-      const dataFilter = data.filter(item => item.productId !== id)
-      setData(dataFilter)
+      const res = await productApi.remove(id)
+      if (!res.status || res.status === 200) {
+        showNotification('success', 'Great', 'Delete product successful', 'OK')
+        const dataFilter = data.filter(item => item.productId !== id)
+        setData(dataFilter)
+      }
+      else {
+        showNotification('error', 'Oh no', 'Delete product fail', 'OK')
+      }
+
     } catch (error) {
-      showNotification('error', 'Oh no', 'Delete product fail', 'OK')
+
     }
   };
   useEffect(() => {
@@ -119,7 +135,7 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            {params.row.saleDate ? params.row.saleDate : "null"}
+            {params.row.saleDate ? formatDate(params.row.saleDate) : "null"}
           </div>
         );
       },

@@ -42,7 +42,7 @@ export default function NewProduct() {
       brand: {
         brandId: formvalues.brandId,
       },
-      image: formvalues.image,
+      image: JSON.stringify(formvalues.image),
       quantity: formvalues.quantity,
       saleDate: formatDate(newsaledate),
       ram: formvalues.ram,
@@ -58,13 +58,21 @@ export default function NewProduct() {
       description: formvalues.description,
       price: formvalues.price,
     };
-    try {
-      await productApi.add(formdata);
+    // try {
+
+    //   showNotification("success", "Great", "Add product successful", "OK");
+    //   history.push("/products");
+    // } catch (error) {
+    //   showNotification("error", "Oh no", "Add product fail", "OK");
+    // }
+    const res = await productApi.add(formdata);
+    if (!res.status || res.status === 200) {
+
       showNotification("success", "Great", "Add product successful", "OK");
       history.push("/products");
-    } catch (error) {
-      console.log(error);
-      showNotification("error", "Oh No", "Add product fail", "OK");
+    }
+    else {
+      showNotification("error", "Oh no", "Add product fail", "OK");
     }
   };
   const formatDate = (date) => {
@@ -146,6 +154,7 @@ export default function NewProduct() {
               name="name"
               value={formvalues.name}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="addProductItem">
@@ -194,6 +203,7 @@ export default function NewProduct() {
               name="quantity"
               value={formvalues.quantity}
               onChange={handleChange}
+              required
             />
           </div>
           {/* <div className="addProductItem">
@@ -215,7 +225,7 @@ export default function NewProduct() {
               accept="image/*"
               onChange={handlefilechange}
             />
-            <button onClick={handleUploadfile}>Upload</button>
+            {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
           </div>
         </div>
         <div className="col-flex">
@@ -329,6 +339,7 @@ export default function NewProduct() {
               name="price"
               value={formvalues.price}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="addProductItem">
