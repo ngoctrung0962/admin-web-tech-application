@@ -26,6 +26,7 @@ import NewDelivery from "./pages/newDelivery/NewDelivery";
 import ReviewList from "./pages/reviewList/ReviewList";
 import OrdersList from './pages/ordersList/OrdersList';
 import Order from './pages/order/Order';
+import Profile from './pages/profile/Profile';
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -65,6 +66,8 @@ function App() {
               <Route path="/orders" component={OrdersList} />
               <Route path="/order/:orderId" component={Order} />
               <Route path="/neworder/" component={Order} />
+
+              <Route path="/profile" component={Profile} />
 
               <Redirect to="/" />
             </Switch>

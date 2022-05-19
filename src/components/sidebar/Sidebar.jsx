@@ -14,12 +14,14 @@ import {
   Report,
 } from "@material-ui/icons";
 import DiscountIcon from "@mui/icons-material/Discount";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import CategoryIcon from "@mui/icons-material/Category";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import ClassIcon from "@mui/icons-material/Class";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Link } from "react-router-dom";
+import LockResetIcon from "@mui/icons-material/LockReset";
 
 export default function Sidebar() {
   return (
@@ -93,24 +95,18 @@ export default function Sidebar() {
             </Link>
           </ul>
         </div>
-        {/* <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
+        <div className="sidebarMenu">
+          <h3 className="sidebarTitle">Manager account</h3>
           <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              Mail
-            </li>
-            <li className="sidebarListItem">
-              <DynamicFeed className="sidebarIcon" />
-              Feedback
-            </li>
-            <li className="sidebarListItem">
-              <ChatBubbleOutline className="sidebarIcon" />
-              Messages
-            </li>
+            <Link to="/profile" className="link">
+              <li className="sidebarListItem">
+                <AccountBoxIcon className="sidebarIcon" />
+                Profile
+              </li>
+            </Link>
           </ul>
         </div>
-        <div className="sidebarMenu">
+        {/* <div className="sidebarMenu">
           <h3 className="sidebarTitle">Staff</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">

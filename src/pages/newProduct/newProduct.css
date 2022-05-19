@@ -1,11 +1,24 @@
 .newProduct {
   flex: 4;
 }
-
-.addProductForm {
-  margin-top: 10px;
+.buttonAddProduct{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
-
+.addProductForm {
+  margin-top: 20px;
+  display: flex!important;; 
+  flex-wrap: wrap;
+}
+.col-flex {
+  display: flex;
+  flex-direction:column;
+  margin-right: 50px;
+  /* width: 30%;
+  flex-wrap: wrap; */
+}
 .addProductItem {
   width: 250px;
   display: flex;
@@ -28,7 +41,8 @@
 }
 
 .addProductButton {
-  margin-top: 10px;
+  margin-bottom: 15px;
+  /* margin-top: 10px;
   margin-bottom: 100px;
   padding: 7px 10px;
   border: none;
@@ -36,5 +50,5 @@
   background-color: darkblue;
   color: white;
   font-weight: 600;
-  cursor: pointer;
+  cursor: pointer; */
 }

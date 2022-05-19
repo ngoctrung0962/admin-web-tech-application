@@ -37,6 +37,10 @@ const userApi = {
         const url = `/change-role/${username}`
         return axiosClient.put(url,username)
     },
+    changepassword(username, data) {
+        const url = `/change-password/${username}`
+        return axiosClient.post(url, data)
+    },
 
 }
 
