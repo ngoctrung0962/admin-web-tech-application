@@ -288,9 +288,9 @@ export default function Product() {
               <span className="productInfoValue">
                 {product
                   ? product.price.toLocaleString("it-IT", {
-                      style: "currency",
-                      currency: "VND",
-                    })
+                    style: "currency",
+                    currency: "VND",
+                  })
                   : "Null"}
               </span>
             </div>
@@ -596,7 +596,7 @@ export default function Product() {
               <label htmlFor="file">
                 <Publish />
               </label>
-              <input type="file" id="file" style={{ display: "none" }} />
+              <input type="file" id="file" multiple accept="image/*" style={{ display: "none" }} />
             </div>
             <button type="submit" className="productButton">
               Update

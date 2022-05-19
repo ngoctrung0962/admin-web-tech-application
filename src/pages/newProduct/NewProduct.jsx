@@ -115,17 +115,22 @@ export default function NewProduct() {
 
   const [currenfileimage, setCurrentfileimage] = useState(null);
   const handlefilechange = (e) => {
-    setCurrentfileimage(e.target.files[0]);
+    setCurrentfileimage(e.target.files);
   };
   const handleUploadfile = async (e) => {
     e.preventDefault();
-    try {
-      const res = await productApi.uploadfileimage(currenfileimage);
-      console.log(res);
+    const formdata = new FormData();
+    for (let i = 0; i < currenfileimage.length; i++) {
+      formdata.append("image", currenfileimage[i]);
+      console.log(currenfileimage[i]);
+    }
+    console.log(formdata);
+    const res = await productApi.uploadfileimage(formdata);
+    if (!res.status || res.status === 200) {
       setFormvalues({ ...formvalues, image: res });
       showNotification("success", "Great", "Add image successful", "OK");
-    } catch (error) {
-      showNotification("error", "Oh no", "Add image fail", "OK");
+    } else {
+      showNotification("error", "Oh No", "Add image fail! Error: " + res.message, "OK");
     }
   };
   console.log(formvalues);
@@ -206,6 +211,8 @@ export default function NewProduct() {
             <input
               type="file"
               name="image"
+              multiple
+              accept="image/*"
               // value={formvalues.image}
               onChange={handlefilechange}
             />
