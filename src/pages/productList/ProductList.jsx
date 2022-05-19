@@ -300,7 +300,7 @@ export default function ProductList() {
       <Link to="/newproduct">
         <button className="productAddButton ">Create</button>
       </Link>
-      {data?.length && (<DataGrid
+      {data.length ? (<DataGrid
         // rowHeight={65}
         // headerHeight={75}
         getRowId={(row) => row.productId}
@@ -308,7 +308,7 @@ export default function ProductList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-      />)}
+      />) : <>No Data</>}
 
     </div>
   );

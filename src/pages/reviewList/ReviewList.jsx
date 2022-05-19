@@ -103,7 +103,7 @@ export default function ReviewList() {
 
   return (
     <div className="productList">
-      {data?.length && (<DataGrid
+      {data.length ? (<DataGrid
         rowHeight={65}
         headerHeight={75}
         getRowId={(row) => row.reviewId}
@@ -111,7 +111,7 @@ export default function ReviewList() {
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
-      />)}
+      />) : <>No Data</>}
     </div>
   );
 }

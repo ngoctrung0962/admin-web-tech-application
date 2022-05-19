@@ -162,7 +162,7 @@ export default function OrdersList() {
 
   return (
     <div className="userList">
-      {data?.length && (
+      {data.length ? (
         <DataGrid
           rows={data}
           disableSelectionOnClick
@@ -170,7 +170,7 @@ export default function OrdersList() {
           getRowId={(row) => row.orderId}
           pageSize={10}
         />
-      )}
+      ) : <>No Data</>}
     </div>
   );
 }

@@ -88,7 +88,7 @@ export default function CategoriesList() {
       <Link to="/newcategory">
         <button className="userAddButton">Create</button>
       </Link>
-      {data?.length && (
+      {data.length ? (
         <DataGrid
           rows={data}
           disableSelectionOnClick
@@ -96,7 +96,7 @@ export default function CategoriesList() {
           getRowId={(row) => row.categoryId}
           pageSize={10}
         />
-      )}
+      ) : <>No Data</>}
     </div>
   );
 }
