@@ -45,7 +45,12 @@ export default function Product() {
       setFormvalues({ ...formvalues, image: res });
       showNotification("success", "Great", "Add image successful", "OK");
     } else {
-      showNotification("error", "Oh No", "Add image fail! Error: " + res.message, "OK");
+      showNotification(
+        "error",
+        "Oh No",
+        "Add image fail! Error: " + res.message,
+        "OK"
+      );
     }
   };
 
@@ -59,7 +64,7 @@ export default function Product() {
       brand: {
         brandId: formvalues.brandId,
       },
-      image: formvalues.image,
+      image: JSON.stringify(formvalues.image),
       quantity: formvalues.quantity,
       saleDate: formvalues.saleDate,
       ram: formvalues.ram,
@@ -80,8 +85,7 @@ export default function Product() {
       if (!res.status || res.status === 200) {
         setProduct(res);
         showNotification("success", "Great", "Update successful", "OK");
-      }
-      else {
+      } else {
         showNotification("error", "Oh no", "Update fail", "OK");
       }
     } catch (error) {
@@ -315,9 +319,9 @@ export default function Product() {
               <span className="productInfoValue">
                 {product
                   ? product.price.toLocaleString("it-IT", {
-                    style: "currency",
-                    currency: "VND",
-                  })
+                      style: "currency",
+                      currency: "VND",
+                    })
                   : "Null"}
               </span>
             </div>
@@ -332,9 +336,7 @@ export default function Product() {
               type="text"
               placeholder={product ? product.name : ""}
               name="name"
-              value={
-                formvalues.name
-              }
+              value={formvalues.name}
               onChange={handleChange}
               required
             />
@@ -342,9 +344,7 @@ export default function Product() {
             <select
               name="categoryId"
               id="categoryId"
-              value={
-                formvalues.categoryId
-              }
+              value={formvalues.categoryId}
               onChange={handleChange}
               option={product ? product.category.categoryId : "null"}
             >
@@ -360,9 +360,7 @@ export default function Product() {
             <select
               name="brandId"
               id="brandId"
-              value={
-                formvalues.brandId
-              }
+              value={formvalues.brandId}
               onChange={handleChange}
               option={product ? product.brand.brandId : "null"}
             >
@@ -380,9 +378,7 @@ export default function Product() {
               disabled
               placeholder={product ? product.image : ""}
               name="image"
-              value={
-                formvalues.image
-              }
+              value={formvalues.image}
               onChange={handleChange}
             />
 
@@ -393,15 +389,19 @@ export default function Product() {
               accept="image/*"
               onChange={handlefilechange}
             />
-            {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
+            {currenfileimage ? (
+              <button onClick={handleUploadfile}>Upload</button>
+            ) : (
+              <button disabled onClick={handleUploadfile}>
+                Upload
+              </button>
+            )}
             <label>Product Quantity</label>
             <input
               type="text"
               placeholder={product ? product.quantity : ""}
               name="quantity"
-              value={
-                formvalues.quantity
-              }
+              value={formvalues.quantity}
               onChange={handleChange}
             />
             <label>Product Sale Date</label>
@@ -409,9 +409,7 @@ export default function Product() {
               type="date"
               // placeholder={product ? product.saleDate : ""}
               name="saleDate"
-              value={
-                formatDate(formvalues.saleDate)
-              }
+              value={formatDate(formvalues.saleDate)}
               onChange={handleChange}
             />
           </div>
@@ -421,66 +419,48 @@ export default function Product() {
               type="text"
               placeholder={product ? product.ram : ""}
               name="ram"
-              value={
-                formvalues.ram
-              }
+              value={formvalues.ram}
               onChange={handleChange}
-
             />
             <label>Product ROM</label>
             <input
               type="text"
               placeholder={product ? product.rom : ""}
               name="rom"
-              value={
-                formvalues.rom
-              }
+              value={formvalues.rom}
               onChange={handleChange}
-
             />
             <label>Product Front Camera</label>
             <input
               type="text"
               placeholder={product ? product.frontCam : ""}
               name="frontCam"
-              value={
-                formvalues.frontCam
-              }
+              value={formvalues.frontCam}
               onChange={handleChange}
-
             />
             <label>Product Back Camera</label>
             <input
               type="text"
               placeholder={product ? product.backCam : ""}
               name="backCam"
-              value={
-                formvalues.backCam
-              }
+              value={formvalues.backCam}
               onChange={handleChange}
-
             />
             <label>Product OS</label>
             <input
               type="text"
               placeholder={product ? product.os : ""}
               name="os"
-              value={
-                formvalues.os
-              }
+              value={formvalues.os}
               onChange={handleChange}
-
             />
             <label>Product Screen</label>
             <input
               type="text"
               placeholder={product ? product.screen : ""}
               name="screen"
-              value={
-                formvalues.screen
-              }
+              value={formvalues.screen}
               onChange={handleChange}
-
             />
           </div>
           <div className="productFormLeft">
@@ -489,42 +469,31 @@ export default function Product() {
               type="text"
               placeholder={product ? product.cpu : ""}
               name="cpu"
-              value={
-                formvalues.cpu
-              }
+              value={formvalues.cpu}
               onChange={handleChange}
-
             />
             <label>Product Battery</label>
             <input
               type="text"
               placeholder={product ? product.battery : ""}
               name="battery"
-              value={
-                formvalues.battery
-              }
+              value={formvalues.battery}
               onChange={handleChange}
-
             />
             <label>Product Weight</label>
             <input
               type="text"
               placeholder={product ? product.weight : ""}
               name="weight"
-              value={
-                formvalues.weight
-              }
+              value={formvalues.weight}
               onChange={handleChange}
-
             />
             <label>Product VGA</label>
             <input
               type="text"
               placeholder={product ? product.vga : ""}
               name="vga"
-              value={
-                formvalues.vga
-              }
+              value={formvalues.vga}
               onChange={handleChange}
             />
             <label>Product Description</label>
@@ -532,9 +501,7 @@ export default function Product() {
               type="text"
               placeholder={product ? product.description : ""}
               name="description"
-              value={
-                formvalues.description
-              }
+              value={formvalues.description}
               onChange={handleChange}
             />
             <label>Product Price</label>
@@ -542,16 +509,13 @@ export default function Product() {
               type="text"
               placeholder={product ? product.price : ""}
               name="price"
-              value={
-                formvalues.price
-              }
+              value={formvalues.price}
               onChange={handleChange}
               required
             />
           </div>
           <div className="productFormRight">
-            <div className="productUpload">
-            </div>
+            <div className="productUpload"></div>
             <button type="submit" className="productButton">
               Update
             </button>

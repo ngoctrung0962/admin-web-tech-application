@@ -5,6 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch } from "react-redux";
 import { Logout } from "../../redux/userRedux";
+import { Link } from "react-router-dom";
 
 export default function Topbar() {
   const dispatch = useDispatch();
@@ -45,7 +46,9 @@ export default function Topbar() {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleClose}>My Account</MenuItem>
+              <Link to="/profile" className="profile">
+                <MenuItem onClick={handleClose}>My Account</MenuItem>
+              </Link>
               <MenuItem onClick={handlelogout}>Logout</MenuItem>
             </Menu>
           </div>

@@ -33,7 +33,6 @@ export default function NewProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newsaledate = await new Date();
-
     const formdata = {
       name: formvalues.name,
       category: {
@@ -67,11 +66,9 @@ export default function NewProduct() {
     // }
     const res = await productApi.add(formdata);
     if (!res.status || res.status === 200) {
-
       showNotification("success", "Great", "Add product successful", "OK");
       history.push("/products");
-    }
-    else {
+    } else {
       showNotification("error", "Oh no", "Add product fail", "OK");
     }
   };
@@ -230,7 +227,13 @@ export default function NewProduct() {
               accept="image/*"
               onChange={handlefilechange}
             />
-            {currenfileimage ? <button onClick={handleUploadfile}>Upload</button> : <button disabled onClick={handleUploadfile}>Upload</button>}
+            {currenfileimage ? (
+              <button onClick={handleUploadfile}>Upload</button>
+            ) : (
+              <button disabled onClick={handleUploadfile}>
+                Upload
+              </button>
+            )}
           </div>
         </div>
         <div className="col-flex">
