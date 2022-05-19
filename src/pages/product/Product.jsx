@@ -64,7 +64,7 @@ export default function Product() {
       brand: {
         brandId: formvalues.brandId,
       },
-      image: JSON.stringify(formvalues.image),
+      image: currenfileimage && currenfileimage.length ? JSON.stringify(formvalues.image) : formvalues.image,
       quantity: formvalues.quantity,
       saleDate: formvalues.saleDate,
       ram: formvalues.ram,
@@ -319,9 +319,9 @@ export default function Product() {
               <span className="productInfoValue">
                 {product
                   ? product.price.toLocaleString("it-IT", {
-                      style: "currency",
-                      currency: "VND",
-                    })
+                    style: "currency",
+                    currency: "VND",
+                  })
                   : "Null"}
               </span>
             </div>

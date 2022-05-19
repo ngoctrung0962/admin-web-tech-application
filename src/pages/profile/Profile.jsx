@@ -238,6 +238,7 @@ export default function Profile() {
                   name="oldPassword"
                   onChange={(e) => setOldpassword(e.target.value)}
                   className="userUpdateInput"
+                  required
                 />
                 <p style={{ color: "red" }}>{erroroldpass}</p>
               </div>
@@ -246,6 +247,7 @@ export default function Profile() {
                 <input
                   type="password"
                   name="newPassword"
+                  required
                   onChange={(e) => setNewpassword(e.target.value)}
                   className="userUpdateInput"
                 />
@@ -257,6 +259,7 @@ export default function Profile() {
                   name="confirmPassword"
                   onChange={(e) => setConfirmpassword(e.target.value)}
                   className="userUpdateInput"
+                  required
                 />
                 <p style={{ color: "red" }}>{errorconfirm}</p>
               </div>
